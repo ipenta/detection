@@ -3,18 +3,18 @@
   <el-form ref="form" :model="form" label-width="160px">
     <p>委托信息</p>
     <el-form-item label="表码">
-      <el-input v-model="form.name"></el-input>
+      <el-input v-model="form.code" ></el-input>
     </el-form-item>
     <el-form-item label="委托方案编号">
-      <el-input v-model="form.name"></el-input>
+      <el-input v-model="form.id"></el-input>
     </el-form-item>
     <el-form-item label="委托方案全称">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.title"></el-input>
     </el-form-item>
     <el-form-item label="所属工程">
-      <el-select v-model="value8" filterable placeholder="请选择">
+      <el-select v-model="form.project" filterable placeholder="请选择">
         <el-option
-          v-for="item in options"
+          v-for="item in projects"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -25,7 +25,7 @@
     <el-form-item label="委托单位">
       <el-select v-model="value8" filterable placeholder="请选择">
         <el-option
-          v-for="item in options"
+          v-for="item in projects"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -73,34 +73,35 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
       form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
+        id: '',
+        code: '',
+        title: '',
+        project: '',
         delivery: false,
         type: [],
         resource: '',
         desc: ''
       },
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
+      projects: [{
+        value: '00001',
+        label: '工程111'
       }, {
-        value: '选项2',
-        label: '双皮奶'
+        value: '00002',
+        label: '工程222'
       }, {
-        value: '选项3',
-        label: '蚵仔煎'
+        value: '00003',
+        label: '工程333'
       }, {
-        value: '选项4',
-        label: '龙须面'
+        value: '00004',
+        label: '工程444'
       }, {
-        value: '选项5',
-        label: '北京烤鸭'
+        value: '00005',
+        label: '工程555'
       }],
       value8: '',
       tableData6: [{
@@ -166,14 +167,19 @@ export default {
 
       return sums
     }
+  },
+  mounted() {
+    axios.get('http://test.cn')
+      .then(res => {
+        console.log(res.data)
+        this.msg = res.data.name
+        console.log(this.msg)
+      })
   }
 }
 </script>
 
 <style lang="css">
-.container{
-  padding: 24px;
-}
 .frame{
   border: 1px solid #eee;
   padding: 16px;
