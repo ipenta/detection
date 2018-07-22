@@ -2,6 +2,7 @@
 <div class="container">
 <el-form ref="form" :model="form" label-width="160px">
   <p>所属工程</p>
+  <a @click="onClick">查看</a>
   <el-form-item label="工程名称">
     <el-input v-model="form.name"></el-input>
   </el-form-item>
@@ -107,6 +108,11 @@ export default {
     onEntitySubmit() {
       this.dialogFormVisible = false
       axios.post('/api/entity', this.entity).then(res => {
+        console.log(res.data)
+      })
+    },
+    onClick() {
+      axios.get('/api/entity/' + this.entity.name).then(res => {
         console.log(res.data)
       })
     }
