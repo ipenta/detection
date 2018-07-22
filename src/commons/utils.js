@@ -79,3 +79,19 @@ export function getCurrentMenu(location, arrayMenu) {
   }
   return null
 }
+
+export function getQueryVariable(paraString) {
+  let obj = {}
+  let keyvalue = []
+  let key = ''
+  let value = ''
+  paraString = paraString.split('&')
+
+  for (var i in paraString) {
+    keyvalue = paraString[i].split('=')
+    key = keyvalue[0]
+    value = keyvalue[1]
+    obj[key] = value
+  }
+  return obj
+}

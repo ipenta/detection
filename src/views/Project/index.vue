@@ -73,6 +73,7 @@
 
 <script>
 import axios from '@/commons/axios'
+
 export default {
   data() {
     return {
@@ -105,8 +106,8 @@ export default {
   methods: {
     onEntitySubmit() {
       this.dialogFormVisible = false
-      axios('http://localhost:3000/entity/save', this.entity).then(res => {
-        if (res.status === 200) {}
+      axios.post('/api/entity', this.entity).then(res => {
+        console.log(res.data)
       })
     }
   }
