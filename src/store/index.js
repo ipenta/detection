@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import EntityVO from '@/service/model/EntityVO'
-import * as service from '@/service/entity'
+import * as entityService from '@/service/entity'
+import * as projectService from '@/service/project'
 
 Vue.use(Vuex)
 
@@ -13,10 +14,13 @@ const getters = {}
 
 const actions = {
   addEntity({ commit, state }, payload) {
-    service.addEntity(payload).then(context => {
-      console.log(context)
-    })
-    // return service.addEntity(payload)
+    return entityService.add(payload)
+  },
+  searchEntity({ commit, state }, payload) {
+    return entityService.search(payload)
+  },
+  addProject({ commit, state }, payload) {
+    return projectService.add(payload)
   }
 }
 

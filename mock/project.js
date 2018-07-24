@@ -1,8 +1,10 @@
 const store = require('../static/db.js');
 
+const ProejctSource = store.Project;
+
 const proxy = {
-  'POST /api/entity': (req, resp) => {
-    store.Entity.insert(req.body).then(result => {
+  'POST /api/project': (req, resp) => {
+    ProejctSource.insert(req.body).then(result => {
       console.log(result)
       resp.json({
         status: 'success',
@@ -15,10 +17,10 @@ const proxy = {
       });
     })
   },
-  'POST /api/entity/list': (req, resp) => {
+  'POST /api/project/list': (req, resp) => {
     let type = req.body.type
     let name = req.body.name
-    store.Entity.find({
+    store.Proejct.find({
       type: type,
       name: eval('/'+name+'/i')
     }).then(result => {

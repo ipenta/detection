@@ -5,7 +5,10 @@
 export default class EntityVO {
   constructor(data) {
     data = data || {}
-    this.type = data.entity_type || ''
-    this.name = data.entity_name || ''
+    this.name = data.name || ''
+    this.owner = data.owner || ''
+    this.constructor = data.constructor || ''
+    this.supervisor = data.supervisor || ''
+    this.designer = data.designer || ''
   }
 }
