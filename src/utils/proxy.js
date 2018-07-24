@@ -8,6 +8,8 @@ export function httpResultProxy(resultPromise, VO = null) {
         let data = res.data
         if (data.data) {
           resolve(mapVO(VO, data.data))
+        } else {
+          resolve(mapVO(VO, data))
         }
       }
     })
