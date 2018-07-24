@@ -1,12 +1,12 @@
 import axios from 'axios'
 // import qs from 'qs'
-import auth from './auth'
+// import auth from './auth'
 import {
   getBaseUrl
 } from '@/commons/utils'
-// import {
-//   MessageBox
-// } from 'element-ui'
+import {
+  Message
+} from 'element-ui'
 
 //  axios 配置
 axios.defaults.timeout = 5000
@@ -27,30 +27,51 @@ axios.defaults.baseURL = getBaseUrl(window.location.href)
 //   return Promise.reject(error)
 // })
 
+axios.interceptors.response.use(data => {
+  if (data.status && data.status === 200 && data.data.status === 'error') {
+    Message.error({
+      message: data.data.msg
+    })
+    return
+  }
+  return data
+}, err => {
+  if (err.response.status === 504 || err.response.status === 404) {
+    Message.error({
+      message: '服务器被吃了⊙﹏⊙∥'
+    })
+  } else if (err.response.status === 403) {
+    Message.error({
+      message: '权限不足,请联系管理员!'
+    })
+  } else {
+    Message.error({
+      message: '未知错误!'
+    })
+  }
+  return Promise.resolve(err)
+})
+
 //  返回状态判断
-axios.interceptors.response.use(
-  response => {
-    if (response.data && response.data.code) {
-      if (response.data.code === '2001') {
-        auth.logout()
-      }
-    }
-    return response
-  },
-  error => {
-    if (error.response) {
-      // 全局ajax错误信息提示
-    //  MessageBox({ type: 'error', message: error.response.data, title: '温馨提示'});
-    }
-    // return Promise.reject(error);
-  })
+// axios.interceptors.response.use(response => {
+//   if (response.data && response.data.code) {
+//     if (response.data.code === '2001') {
+//       auth.logout()
+//     }
+//   }
+//   return response
+// }, error => {
+//   if (error.response) {
+//     // 全局ajax错误信息提示
+//     //  MessageBox({ type: 'error', message: error.response.data, title: '温馨提示'});
+//   }
+//   // return Promise.reject(error);
+// })
 
 export function fetch(url, config = {
   method: 'get'
 }) {
-  return axios.request({ ...config,
-    url
-  })
+  return axios.request({...config, url})
   //  return new Promise((resolve, reject) => {
   //    axios.request({ ...config, url })
   //      .then(response => {

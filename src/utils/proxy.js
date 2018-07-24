@@ -8,23 +8,7 @@ export function httpResultProxy(resultPromise, VO = null) {
         let data = res.data
         if (data.data) {
           resolve(mapVO(VO, data.data))
-        } else if (data.msg) {
-          resolve({
-            msg: data.msg
-          })
         }
-      } else {
-        reject(new Error('服务器返回数据异常'))
-      }
-    }, (error) => {
-      throw error
-    }).catch(error => {
-      if (error.response) {
-        // throw new Error('服务器异常！')
-        reject(new Error('服务器异常！'))
-      } else {
-        // throw new Error('系统异常！')
-        reject(new Error('服务器异常！'))
       }
     })
   })

@@ -112,11 +112,7 @@ export default {
       })
     },
     onClick() {
-      // axios.get('/api/entity/sdssff').then(res => {
-      //   console.log(res.data)
-      // })
-      let args = ['sjdfj', 'jdjfjf']
-      this.$store.dispatch('addEntity', args)
+      this.$store.dispatch('addEntity', this.entity)
     }
   }
 }

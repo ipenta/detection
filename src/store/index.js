@@ -13,9 +13,10 @@ const getters = {}
 
 const actions = {
   addEntity({ commit, state }, payload) {
-    return service.addEntity(payload).then(results => {
-      console.log(results)
+    service.addEntity(payload).then(context => {
+      console.log(context)
     })
+    // return service.addEntity(payload)
   }
 }
 

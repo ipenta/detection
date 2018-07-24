@@ -1,5 +1,4 @@
 const store = require('../static/db.js');
-const resultvo = require('../static/resultvo.js');
 
 const proxy = {
   'POST /api/entity': (req, resp) => {
@@ -10,10 +9,9 @@ const proxy = {
         msg: '插入成功！'
       });
     }).catch(err => {
-      console.log(err);
       resp.json({
-        status: 'fail',
-        msg: '插入失败！'
+        status: 'error',
+        msg: err.errorType
       });
     })
   },
