@@ -140,6 +140,7 @@ export default {
   methods: {
     onEntitySubmit() {
       this.dialogFormVisible = false
+      console.log(this.entity)
       this.$store.dispatch('addEntity', this.entity)
     },
     onSearchEntity(type) {

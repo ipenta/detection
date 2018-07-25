@@ -26,7 +26,6 @@ html,body{
 }
 .container{
   padding: 24px;
-  width: 600px;
 }
 .dialog-form{
   max-width: 600px;
