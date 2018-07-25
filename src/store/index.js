@@ -21,6 +21,9 @@ const actions = {
   },
   addProject({ commit, state }, payload) {
     return projectService.add(payload)
+  },
+  searchProject({ commit, state }, payload) {
+    return projectService.search(payload)
   }
 }
 

@@ -7,7 +7,7 @@
   </el-form-item>
   <el-form-item label="建设单位">
     <el-select
-      v-model="form.owner"
+      v-model="form.entities[0]"
       filterable
       remote
       reserve-keyword
@@ -18,14 +18,14 @@
         v-for="item in projects.owner"
         :key="item.name"
         :label="item.name"
-        :value="item.name">
+        :value="item">
       </el-option>
     </el-select>
     <el-button type="text" @click="dialogFormVisible = true">创建单位</el-button>
   </el-form-item>
   <el-form-item label="监理单位">
     <el-select
-      v-model="form.supervisor"
+      v-model="form.entities[1]"
       filterable
       remote
       reserve-keyword
@@ -36,13 +36,13 @@
         v-for="item in projects.supervisor"
         :key="item.name"
         :label="item.name"
-        :value="item.name">
+        :value="item">
       </el-option>
     </el-select>
   </el-form-item>
   <el-form-item label="施工单位">
     <el-select
-      v-model="form.builder"
+      v-model="form.entities[2]"
       filterable
       remote
       reserve-keyword
@@ -53,13 +53,13 @@
         v-for="item in projects.builder"
         :key="item.name"
         :label="item.name"
-        :value="item.name">
+        :value="item">
       </el-option>
     </el-select>
   </el-form-item>
   <el-form-item label="设计单位">
     <el-select
-      v-model="form.designer"
+      v-model="form.entities[3]"
       filterable
       remote
       reserve-keyword
@@ -70,7 +70,7 @@
         v-for="item in projects.designer"
         :key="item.name"
         :label="item.name"
-        :value="item.name">
+        :value="item">
       </el-option>
     </el-select>
   </el-form-item>
@@ -110,10 +110,7 @@ export default {
     return {
       form: {
         name: '',
-        owner: '',
-        designer: '',
-        supervisor: '',
-        builder: ''
+        entities: []
       },
       loading: false,
       projects: {

@@ -12,31 +12,42 @@
         <el-input v-model="form.title"></el-input>
     </el-form-item>
     <el-form-item label="所属工程">
-      <el-select v-model="form.project" filterable placeholder="请选择">
+      <el-select
+        v-model="project"
+        filterable
+        remote
+        reserve-keyword
+        placeholder="请输入关键词"
+        :remote-method="onSearchProject"
+        :loading="loading">
         <el-option
           v-for="item in projects"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          :key="item._id"
+          :label="item.name"
+          :value="item">
         </el-option>
       </el-select>
       <router-link tag="li" to="/project"><a>录入新工程</a></router-link>
     </el-form-item>
     <el-form-item label="委托单位">
-      <el-select v-model="value8" filterable placeholder="请选择">
+      <el-select v-model="form.entity" filterable placeholder="请选择">
         <el-option
-          v-for="item in projects"
+          v-for="item in entities"
           :key="item.value"
           :label="item.label"
-          :value="item.value">
+          :value="item">
         </el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="委托人">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.principal.name"></el-input>
     </el-form-item>
     <el-form-item label="委托电话">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.principal.member"></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button>取 消</el-button>
+      <el-button type="primary" @click="onRecordSubmit">确 定</el-button>
     </el-form-item>
     <p>检测项目明细</p>
     <el-table
@@ -73,7 +84,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import {EntityMap} from '@/utils/map'
 export default {
   data() {
     return {
@@ -82,62 +93,45 @@ export default {
         code: '',
         title: '',
         project: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        entity: '',
+        principal: {
+          name: '',
+          member: ''
+        }
       },
-      projects: [{
-        value: '00001',
-        label: '工程111'
-      }, {
-        value: '00002',
-        label: '工程222'
-      }, {
-        value: '00003',
-        label: '工程333'
-      }, {
-        value: '00004',
-        label: '工程444'
-      }, {
-        value: '00005',
-        label: '工程555'
-      }],
-      value8: '',
-      tableData6: [{
-        id: '12987122',
-        name: '王小虎',
-        amount1: '234',
-        amount2: '3.2',
-        amount3: 10
-      }, {
-        id: '12987123',
-        name: '王小虎',
-        amount1: '165',
-        amount2: '4.43',
-        amount3: 12
-      }, {
-        id: '12987124',
-        name: '王小虎',
-        amount1: '324',
-        amount2: '1.9',
-        amount3: 9
-      }, {
-        id: '12987125',
-        name: '王小虎',
-        amount1: '621',
-        amount2: '2.2',
-        amount3: 17
-      }, {
-        id: '12987126',
-        name: '王小虎',
-        amount1: '539',
-        amount2: '4.1',
-        amount3: 15
-      }]
+      projects: '',
+      project: '',
+      loading: false,
+      record: '',
+      tableData6: []
+    }
+  },
+  computed: {
+    entities: function() {
+      let entities = []
+      if (this.project !== '') {
+        this.project.entities.forEach(item => {
+          entities.push({vaule: item.name, label: EntityMap[item.type] + ' - ' + item.name})
+        })
+      }
+      return entities
     }
   },
   methods: {
+    onSearchProject(name) {
+      let that = this
+      if (name !== '') {
+        this.$store.dispatch('searchProject', {
+          name: name
+        }).then(context => {
+          that.projects = context
+        })
+      }
+    },
+    onRecordSubmit() {
+      this.form.project = this.project
+      console.log(this.form)
+    },
     getSummaries(param) {
       const {
         columns,
@@ -167,14 +161,6 @@ export default {
 
       return sums
     }
-  },
-  mounted() {
-    axios.get('http://test.cn')
-      .then(res => {
-        console.log(res.data)
-        this.msg = res.data.name
-        console.log(this.msg)
-      })
   }
 }
 </script>

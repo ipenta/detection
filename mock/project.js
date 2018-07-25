@@ -4,8 +4,8 @@ const ProejctSource = store.Project;
 
 const proxy = {
   'POST /api/project': (req, resp) => {
+    console.log(req.body)
     ProejctSource.insert(req.body).then(result => {
-      console.log(result)
       resp.json({
         status: 'success',
         msg: '插入成功！'
@@ -17,11 +17,9 @@ const proxy = {
       });
     })
   },
-  'POST /api/project/list': (req, resp) => {
-    let type = req.body.type
-    let name = req.body.name
-    store.Proejct.find({
-      type: type,
+  'GET /api/project/search': (req, resp) => {
+    let name = req.query.name
+    ProejctSource.find({
       name: eval('/'+name+'/i')
     }).then(result => {
       resp.json({
