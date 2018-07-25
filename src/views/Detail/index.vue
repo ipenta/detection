@@ -2,7 +2,7 @@
   <div class="container">
     <p>检测项目明细</p>
     <el-button type="text" @click="dialogFormVisible = true">创建单位</el-button>
-    <el-table
+    <!-- <el-table
     :data="tableData6"
     border
     style="width: 100%; margin-top: 20px">
@@ -25,7 +25,7 @@
         prop="needPlan"
         label="是否需要方案">
         <template slot-scope="scope">
-              <el-input v-model="detailForm.label"></el-input>
+          <el-input v-model="detailsForm.label"></el-input>
         </template>
       </el-table-column>
       <el-table-column
@@ -60,11 +60,27 @@
         prop="summary"
         label="金额小计">
       </el-table-column>
-    </el-table>
-    <!-- <el-dialog title="材料" :visible.sync="dialogFormVisible">
+    </el-table> -->
+    <el-dialog title="材料" :visible.sync="dialogFormVisible">
       <el-form ref="detailsform" :model="detailsform" label-width="120px" v-show="isDetailsformShow">
         <el-form-item label="材料项目名称">
-          <el-input v-model="detailsform.label"></el-input>
+          <template slot-scope="scope">
+            <el-select
+              v-model="detailsform.label"
+              filterable
+              remote
+              reserve-keyword
+              placeholder="请输入关键词"
+              :remote-method="onSearchEntity('owner')"
+              :loading="loading">
+              <el-option
+                v-for="item in projects.owner"
+                :key="item.name"
+                :label="item.name"
+                :value="item">
+              </el-option>
+            </el-select>
+          </template>
         </el-form-item>
         <el-form-item label="是否需要方案">
           <el-input v-model="detailsform.needPlan"></el-input>
@@ -90,7 +106,7 @@
           <el-button type="text" @click="isDetailsformShow=true">创建单位</el-button>
         </el-form-item>
       </el-form>
-    </el-dialog> -->
+    </el-dialog>
   </div>
 </template>
 
@@ -101,7 +117,7 @@ export default {
       dialogFormVisible: false,
       tableData6: [{}],
       isDetailsformShow: true,
-      detailForm: {
+      detailsform: {
         label: '',
         needOnsite: false,
         needPlan: false,
@@ -133,7 +149,13 @@ export default {
       }],
       value8: ''
     }
+  },
+  methods: {
+    onSearchEntity: function () {
+
+    }
   }
+
 }
 </script>
 
