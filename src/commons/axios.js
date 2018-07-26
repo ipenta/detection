@@ -34,6 +34,12 @@ axios.interceptors.response.use(data => {
     })
     return
   }
+  if (data.status && data.status === 200 && data.data.status === 'success') {
+    Message.success({
+      message: data.data.msg
+    })
+    return data
+  }
   return data
 }, err => {
   console.log(err.response)

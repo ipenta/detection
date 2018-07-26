@@ -8,30 +8,54 @@ import * as inspectionService from '@/service/inspection'
 Vue.use(Vuex)
 
 const state = {
-  entity: new EntityVO()
+  entity: new EntityVO(),
+  message: {
+    showClose: true,
+    message: '',
+    type: 'success',
+    duration: 2000
+  }
 }
 
-const getters = {}
+const getters = {
+  message: state => state.message
+}
 
 const actions = {
-  addEntity({ commit, state }, payload) {
+  addEntity({
+    commit,
+    state
+  }, payload) {
     return entityService.add(payload)
   },
-  searchEntity({ commit, state }, payload) {
+  searchEntity({
+    commit,
+    state
+  }, payload) {
     return entityService.search(payload)
   },
-  addProject({ commit, state }, payload) {
+  addProject({
+    commit,
+    state
+  }, payload) {
     return projectService.add(payload)
   },
-  searchProject({ commit, state }, payload) {
+  searchProject({
+    commit,
+    state
+  }, payload) {
     return projectService.search(payload)
   },
-  addInspection({ commit, state }, payload) {
+  addInspection({
+    commit,
+    state
+  }, payload) {
     return inspectionService.add(payload)
   }
 }
 
-const mutations = {}
+const mutations = {
+}
 
 const store = new Vuex.Store({
   state,

@@ -104,7 +104,6 @@ export default {
     },
     onRecordSubmit() {
       this.form.project = this.project
-      console.log(this.form)
     },
     getSummaries() {
       // const {

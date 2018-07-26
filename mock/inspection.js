@@ -1,0 +1,21 @@
+const store = require('../static/db.js');
+
+const InspectionSource = store.Inspection;
+
+const proxy = {
+  'POST /api/inspection': (req, resp) => {
+    console.log(req.body)
+    InspectionSource.insert(req.body).then(result => {
+      resp.json({
+        status: 'success',
+        msg: '插入成功！'
+      });
+    }).catch(err => {
+      resp.json({
+        status: 'error',
+        msg: err.errorType
+      });
+    })
+  }
+}
+module.exports = proxy;
