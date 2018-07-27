@@ -5,6 +5,7 @@ import * as entityService from '@/service/entity'
 import * as projectService from '@/service/project'
 import * as inspectionService from '@/service/inspection'
 import * as entryService from '@/service/entry'
+import * as principalService from '@/service/principal'
 
 Vue.use(Vuex)
 
@@ -64,6 +65,12 @@ const actions = {
     state
   }, payload) {
     return entryService.add(payload)
+  },
+  addPrincipal({
+    commit,
+    state
+  }, payload) {
+    return principalService.add(payload)
   }
 }
 
