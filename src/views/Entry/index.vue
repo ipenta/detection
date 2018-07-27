@@ -1,67 +1,8 @@
 <template lang="html">
   <div class="container">
     <p>检测项目明细</p>
-    <!-- <el-table
-    :data="tableData6"
-    border
-    style="width: 100%; margin-top: 20px">
-      <el-table-column
-        prop="label"
-        label="材料项目名称"
-        width="120">
-        <template slot-scope="scope">
-          <el-select v-model="value8">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="needPlan"
-        label="是否需要方案">
-        <template slot-scope="scope">
-          <el-input v-model="detailsForm.label"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="needOnsite"
-        label="是否现场检测">
-      </el-table-column>
-      <el-table-column
-        prop="manufacturer"
-        label="生产厂家">
-      </el-table-column>
-      <el-table-column
-        prop="charges"
-        label="收费标准">
-      </el-table-column>
-      <el-table-column
-        prop="number"
-        label="检测数量">
-      </el-table-column>
-      <el-table-column
-        prop="type"
-        label="检测类别">
-      </el-table-column>
-      <el-table-column
-        prop="needOnsiteSimple"
-        label="送样/现场取样">
-      </el-table-column>
-      <el-table-column
-        prop="note"
-        label="备注">
-      </el-table-column>
-      <el-table-column
-        prop="summary"
-        label="金额小计">
-      </el-table-column>
-    </el-table> -->
     <div>
-      <el-form ref="entryForm" :model="entryForm" label-width="120px" v-show="isEntryformShow">
+      <el-form ref="entryForm" :model="entryForm" :rules="entryFormRules" label-width="120px">
         <el-form-item label="材料项目名称">
           <template slot-scope="scope">
             <el-select
@@ -74,7 +15,7 @@
               :loading="loading">
               <el-option
                 v-for="item in inspections"
-                :key="item.text"
+                :key="item._id"
                 :label="item.text"
                 :value="item">
               </el-option>
@@ -94,15 +35,15 @@
           <el-checkbox v-for="method in inspection.methods" :key="method.text" v-model="method.checked" disabled>{{method.text}}</el-checkbox>
         </el-form-item>
         <br>
-        <el-form-item label="生产厂家">
+        <el-form-item label="生产厂家" prop="manufacturer">
           <el-input v-model="entryForm.manufacturer"></el-input>
         </el-form-item>
-        <el-form-item label="购买件数">
+        <el-form-item label="购买件数" prop="number">
           <el-input v-model.number="entryForm.number"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button>取 消</el-button>
-          <el-button type="primary" @click="onSubmitEntry">确 定</el-button>
+          <el-button type="primary" @click="onSubmit('entryForm')">确 定</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -118,17 +59,27 @@ export default {
       tableData6: [{}],
       isEntryformShow: true,
       entryForm: {
-        orderId: '',
+        orderId: this.$route.params.id,
         inspection: new InspectionVO(),
         manufacturer: '',
-        number: ''
+        number: 0
       },
       manufacturerFrom: {
         name: ''
       },
       loading: false,
       inspections: [],
-      inspection: new InspectionVO()
+      inspection: new InspectionVO(),
+      entryFormRules: {
+        manufacturer: [
+          { required: true, message: '请输入厂家名称', trigger: 'blur' },
+          { min: 3, message: '长度在 3 个字符以上', trigger: 'blur' }
+        ],
+        number: [
+          { required: true, message: '请输入数据', trigger: 'blur' },
+          { type: 'number', message: '必须为数字', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
@@ -141,10 +92,21 @@ export default {
         })
       }
     },
-    onSubmitEntry: function () {
-      this.entryForm.inspection = this.inspection
-      this.$store.dispatch('addEntry', this.entryForm).then(context => {
-        console.log(context)
+    onSubmit: function (formName) {
+      let that = this
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.entryForm.inspection = this.inspection
+          this.$store.dispatch('addEntry', this.entryForm).then(context => {
+            if (context.status === 'success') {
+              that.$refs[formName].resetFields()
+              that.$router.push({path: '/order/' + that.$route.params.id})
+            }
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
       })
     }
   }

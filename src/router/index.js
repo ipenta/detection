@@ -7,6 +7,7 @@ import Project from '@/views/Project'
 import Inspection from '@/views/Inspection'
 import Entry from '@/views/Entry'
 import Principal from '@/views/Principal'
+import Order from '@/views/Order'
 
 Vue.use(Router)
 
@@ -24,11 +25,14 @@ export default new Router({
       path: 'inspection',
       component: Inspection
     }, {
-      path: 'entry',
+      path: 'entry/:id',
       component: Entry
     }, {
       path: 'principal',
       component: Principal
+    }, {
+      path: 'order/:id',
+      component: Order
     }]
   }]
 })

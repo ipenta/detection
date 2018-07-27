@@ -66,6 +66,12 @@ const actions = {
   }, payload) {
     return entryService.add(payload)
   },
+  getEntryByOrderId({
+    commit,
+    state
+  }, payload) {
+    return entryService.getEntryByOrderId(payload)
+  },
   addPrincipal({
     commit,
     state

@@ -16,6 +16,19 @@ const proxy = {
         msg: err.errorType
       });
     })
+  },
+  'GET /api/entry': (req, resp) => {
+    EntrySource.find(req.query).then(result => {
+      resp.json({
+        status: 'success',
+        data: result
+      });
+    }).catch(err => {
+      resp.json({
+        status: 'error',
+        msg: err.errorType
+      });
+    })
   }
 }
 module.exports = proxy;
