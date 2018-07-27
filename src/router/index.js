@@ -6,6 +6,7 @@ import Record from '@/views/Record'
 import Project from '@/views/Project'
 import Inspection from '@/views/Inspection'
 import Entry from '@/views/Entry'
+import Principal from '@/views/Principal'
 
 Vue.use(Router)
 
@@ -25,6 +26,9 @@ export default new Router({
     }, {
       path: 'entry',
       component: Entry
+    }, {
+      path: 'principal',
+      component: Principal
     }]
   }]
 })

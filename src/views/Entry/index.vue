@@ -1,7 +1,6 @@
 <template lang="html">
   <div class="container">
     <p>检测项目明细</p>
-    <el-button type="text" @click="dialogFormVisible = true">创建单位</el-button>
     <!-- <el-table
     :data="tableData6"
     border
@@ -106,14 +105,6 @@
           <el-button type="primary" @click="onSubmitEntry">确 定</el-button>
         </el-form-item>
       </el-form>
-      <!-- <el-form ref="manufacturerFrom" :model="manufacturerFrom" label-width="120px" v-show="!isManufacturerShow">
-        <el-form-item label="生产厂家名称">
-          <el-input v-model="manufacturerFrom.name"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="text" @click="ismanifestformShow=true">创建单位</el-button>
-        </el-form-item>
-      </el-form> -->
     </div>
   </div>
 </template>

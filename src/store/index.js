@@ -71,6 +71,12 @@ const actions = {
     state
   }, payload) {
     return principalService.add(payload)
+  },
+  searchPrincipal({
+    commit,
+    state
+  }, payload) {
+    return principalService.search(payload)
   }
 }
 

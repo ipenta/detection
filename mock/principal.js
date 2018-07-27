@@ -16,6 +16,17 @@ const proxy = {
         msg: err.errorType
       });
     })
+  },
+  'GET /api/principal/search': (req, resp) => {
+    let name = req.query.name
+    PrincipalSource.find({
+      name: eval('/'+name+'/i')
+    }).then(result => {
+      resp.json({
+        status: 'success',
+        data: result
+      })
+    })
   }
 }
 module.exports = proxy;

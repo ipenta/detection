@@ -30,4 +30,7 @@ html,body{
 .dialog-form{
   max-width: 600px;
 }
+a{
+  text-decoration:none;
+}
 </style>
