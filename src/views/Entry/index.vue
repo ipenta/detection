@@ -61,101 +61,102 @@
         label="金额小计">
       </el-table-column>
     </el-table> -->
-    <el-dialog title="材料" :visible.sync="dialogFormVisible">
-      <el-form ref="detailsform" :model="detailsform" label-width="120px" v-show="isDetailsformShow">
+    <div>
+      <el-form ref="entryForm" :model="entryForm" label-width="120px" v-show="isEntryformShow">
         <el-form-item label="材料项目名称">
           <template slot-scope="scope">
             <el-select
-              v-model="detailsform.label"
+              v-model="inspection"
               filterable
               remote
               reserve-keyword
               placeholder="请输入关键词"
-              :remote-method="onSearchEntity('owner')"
+              :remote-method="onSearchInspection"
               :loading="loading">
               <el-option
-                v-for="item in projects.owner"
-                :key="item.name"
-                :label="item.name"
+                v-for="item in inspections"
+                :key="item.text"
+                :label="item.text"
                 :value="item">
               </el-option>
             </el-select>
           </template>
         </el-form-item>
-        <el-form-item label="是否需要方案">
-          <el-input v-model="detailsform.needPlan"></el-input>
-        </el-form-item>
-        <el-form-item label="是否现场检测">
-          <el-input v-model="detailsform.needOnsite"></el-input>
-        </el-form-item>
-        <el-form-item label="生产厂家">
-          <el-input v-model="detailsform.label"></el-input><el-button type="text" @click="isDetailsformShow=false">创建厂家信息</el-button>
+         <el-form-item label="检测类型">
+          <el-input :value="inspection.type" readonly></el-input>
         </el-form-item>
         <el-form-item label="收费标准">
-          <el-input v-model="detailsform.label"></el-input>
+          <el-input type="number" :value="inspection.price" readonly></el-input>
         </el-form-item>
-      </el-form>
-      <el-form ref="detailsSampleForm" :model="detailsSampleForm" label-width="120px" v-show="!isDetailsformShow">
-        <el-form-item label="材料项目名称">
-          <el-input v-model="detailsform.label"></el-input>
+        <el-form-item label="计量单位">
+          <el-input :value="inspection.unit" readonly></el-input>
         </el-form-item>
-        <el-form-item label="材料项目名称">
-          <el-input v-model="detailsform.label"></el-input>
+        <el-form-item label="送样/现场取样">
+          <el-checkbox v-for="method in inspection.methods" :key="method.text" v-model="method.checked" disabled>{{method.text}}</el-checkbox>
+        </el-form-item>
+        <br>
+        <el-form-item label="生产厂家">
+          <el-input v-model="entryForm.manufacturer"></el-input>
+        </el-form-item>
+        <el-form-item label="购买件数">
+          <el-input v-model.number="entryForm.number"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="text" @click="isDetailsformShow=true">创建单位</el-button>
+          <el-button>取 消</el-button>
+          <el-button type="primary" @click="onSubmitEntry">确 定</el-button>
         </el-form-item>
       </el-form>
-    </el-dialog>
+      <!-- <el-form ref="manufacturerFrom" :model="manufacturerFrom" label-width="120px" v-show="!isManufacturerShow">
+        <el-form-item label="生产厂家名称">
+          <el-input v-model="manufacturerFrom.name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="text" @click="ismanifestformShow=true">创建单位</el-button>
+        </el-form-item>
+      </el-form> -->
+    </div>
   </div>
 </template>
 
 <script>
+import InspectionVO from '@/service/model/InspectionVO'
 export default {
   data() {
     return {
       dialogFormVisible: false,
       tableData6: [{}],
-      isDetailsformShow: true,
-      detailsform: {
-        label: '',
-        needOnsite: false,
-        needPlan: false,
+      isEntryformShow: true,
+      entryForm: {
+        orderId: '',
+        inspection: new InspectionVO(),
         manufacturer: '',
-        charges: '',
-        number: '',
-        type: '',
-        needOnsiteSimple: '',
-        summary: ''
+        number: ''
       },
-      detailsSampleForm: {
+      manufacturerFrom: {
         name: ''
       },
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      value8: ''
+      loading: false,
+      inspections: [],
+      inspection: new InspectionVO()
     }
   },
   methods: {
-    onSearchEntity: function () {
-
+    onSearchInspection: function (text) {
+      if (text !== '') {
+        this.$store.dispatch('searchInspection', {
+          text: text
+        }).then(context => {
+          this.inspections = context
+        })
+      }
+    },
+    onSubmitEntry: function () {
+      this.entryForm.inspection = this.inspection
+      this.$store.dispatch('addEntry', this.entryForm).then(context => {
+        console.log(context)
+      })
     }
   }
-
 }
 </script>
 

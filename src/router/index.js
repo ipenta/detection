@@ -4,8 +4,8 @@ import Home from '@/views/Home'
 
 import Record from '@/views/Record'
 import Project from '@/views/Project'
-import Detail from '@/views/Detail'
 import Inspection from '@/views/Inspection'
+import Entry from '@/views/Entry'
 
 Vue.use(Router)
 
@@ -20,11 +20,11 @@ export default new Router({
       path: 'project',
       component: Project
     }, {
-      path: 'detail',
-      component: Detail
-    }, {
       path: 'inspection',
       component: Inspection
+    }, {
+      path: 'entry',
+      component: Entry
     }]
   }]
 })

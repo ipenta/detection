@@ -4,7 +4,6 @@ const InspectionSource = store.Inspection;
 
 const proxy = {
   'POST /api/inspection': (req, resp) => {
-    console.log(req.body)
     InspectionSource.insert(req.body).then(result => {
       resp.json({
         status: 'success',
@@ -15,6 +14,17 @@ const proxy = {
         status: 'error',
         msg: err.errorType
       });
+    })
+  },
+  'GET /api/inspection/search': (req, resp) => {
+    let text = req.query.text
+    InspectionSource.find({
+      text: eval('/'+text+'/i')
+    }).then(result => {
+      resp.json({
+        status: 'success',
+        data: result
+      })
     })
   }
 }

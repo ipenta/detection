@@ -4,6 +4,7 @@ import EntityVO from '@/service/model/EntityVO'
 import * as entityService from '@/service/entity'
 import * as projectService from '@/service/project'
 import * as inspectionService from '@/service/inspection'
+import * as entryService from '@/service/entry'
 
 Vue.use(Vuex)
 
@@ -51,6 +52,18 @@ const actions = {
     state
   }, payload) {
     return inspectionService.add(payload)
+  },
+  searchInspection({
+    commit,
+    state
+  }, payload) {
+    return inspectionService.search(payload)
+  },
+  addEntry({
+    commit,
+    state
+  }, payload) {
+    return entryService.add(payload)
   }
 }
 
