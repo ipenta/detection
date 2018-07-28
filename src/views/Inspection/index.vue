@@ -85,14 +85,6 @@ export default {
         }
       })
     }
-    // onSubmit: function(formName) {
-    //   this.$refs[formName].validate(valid => {
-    //     if (valid) {
-    //       this.$store.dispatch('addInspection', this.inspectionVO)
-    //       this.$refs[formName].resetFields()
-    //     }
-    //   })
-    // }
   }
 }
 </script>

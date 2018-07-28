@@ -79,7 +79,7 @@
     </el-select>
   </el-form-item>
   <el-form-item>
-    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <router-link to="/record" class="el-button">放弃</router-link>
     <el-button type="primary" @click="onSubmit('form')">确 定</el-button>
   </el-form-item>
 </el-form>
