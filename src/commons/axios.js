@@ -34,15 +34,14 @@ axios.interceptors.response.use(data => {
     })
     return
   }
-  if (data.status && data.status === 200 && data.data.status === 'success') {
-    Message.success({
-      message: data.data.msg
-    })
-    return data
-  }
+  // if (data.status && data.status === 200 && data.data.status === 'success') {
+  //   Message.success({
+  //     message: data.data.msg
+  //   })
+  //   return data
+  // }
   return data
 }, err => {
-  console.log(err.response)
   // if (err.response.status === 504 || err.response.status === 404) {
   Message.error({
     message: '服务器被吃了⊙﹏⊙∥'

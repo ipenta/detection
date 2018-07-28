@@ -7,10 +7,11 @@
     </el-form-item>
     <el-form-item label="所属工程" prop="project">
       <el-select
-        v-model="project"
+        v-model="form.project"
         filterable
         remote
         reserve-keyword
+        value-key="_id"
         placeholder="请输入关键词获取工程"
         :remote-method="onSearchProject"
         :loading="loading">
@@ -21,23 +22,25 @@
           :value="item">
         </el-option>
       </el-select>
+      <router-link to="/project" class="el-button el-button--primary">新增工程</router-link>
     </el-form-item>
-    <el-form-item label="委托单位">
-      <el-select v-model="form.entity" filterable placeholder="【所属工程】填写后可选">
+    <el-form-item label="委托单位" prop="entity">
+      <el-select v-model="form.entity" value-key="label" filterable placeholder="【所属工程】填写后可选">
         <el-option
           v-for="item in entities"
           :key="item.value"
           :label="item.label"
-          :value="item">
+          :value="item.vaule">
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="委托人">
+    <el-form-item label="委托人" prop="principal">
       <el-select
-        v-model="principal"
+        v-model="form.principal"
         filterable
         remote
         reserve-keyword
+        value-key="_id"
         placeholder="请输入关键词"
         :remote-method="onSearchPrincipal"
         :loading="loading">
@@ -50,15 +53,14 @@
       </el-select>
       <router-link to="/principal" class="el-button el-button--primary">新增委托人</router-link>
     </el-form-item>
-    <el-form-item label="委托人电话" prop="phonenum">
-        <el-input v-model="principal.phonenum" placeholder="【委托人】获取" disabled></el-input>
+    <el-form-item label="委托人电话">
+        <el-input :value="form.principal.phonenum" placeholder="【委托人】获取" disabled></el-input>
     </el-form-item>
     <el-form-item>
       <el-button>取 消</el-button>
-      <el-button type="primary" @click="onDetailSubmit">进一步完成委托明细</el-button>
+      <el-button type="primary" @click="onSubmit('form')">完成,继续委托明细</el-button>
     </el-form-item>
   </el-form>
-
 </div>
 </template>
 
@@ -76,7 +78,7 @@ export default {
       principals: [],
       principal: '',
       isPrincipalFormShow: false,
-      projects: '',
+      projects: [],
       project: '',
       loading: false,
       record: '',
@@ -84,6 +86,15 @@ export default {
         title: [
           { required: true, message: '必须：请务必填写委托方案名', trigger: 'blur' },
           { min: 3, message: '长度不能少于 3 个字符', trigger: 'blur' }
+        ],
+        entity: [
+          { required: true, message: '必须：请务必选择', trigger: 'change' }
+        ],
+        project: [
+          { required: true, message: '必须：请务必选择', trigger: 'blur' } // 这里需要用到全局变量
+        ],
+        principal: [
+          { required: true, message: '必须：请务必选择', trigger: 'blur' } // 这里需要用到全局变量
         ]
       }
     }
@@ -91,8 +102,9 @@ export default {
   computed: {
     entities: function() {
       let entities = []
-      if (this.project !== '') {
-        this.project.entities.forEach(item => {
+      let _project = this.form.project
+      if (_project !== '' && Array.isArray(_project.entities)) {
+        _project.entities.forEach(item => {
           entities.push({
             vaule: item.name,
             label: EntityMap[item.type] + ' - ' + item.name
@@ -126,37 +138,16 @@ export default {
         })
       }
     },
-    onDetailSubmit() {
-      console.log('onDetailSubmit')
-    },
-    getSummaries() {
-      // const {
-      //   columns,
-      //   data
-      // } = param
-      // const sums = []
-      // columns.forEach((column, index) => {
-      //   if (index === 0) {
-      //     sums[index] = '总价'
-      //     return
-      //   }
-      //   const values = data.map(item => Number(item[column.property]))
-      //   if (!values.every(value => isNaN(value))) {
-      //     sums[index] = values.reduce((prev, curr) => {
-      //       const value = Number(curr)
-      //       if (!isNaN(value)) {
-      //         return prev + curr
-      //       } else {
-      //         return prev
-      //       }
-      //     }, 0)
-      //     sums[index] += ' 元'
-      //   } else {
-      //     sums[index] = 'N/A'
-      //   }
-      // })
-      //
-      // return sums
+    onSubmit(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$store.dispatch('addRecord', this.form).then(msg => {
+            if (msg.status === 'success') {
+              this.$refs[formName].resetFields()
+            }
+          })
+        }
+      })
     }
   }
 }

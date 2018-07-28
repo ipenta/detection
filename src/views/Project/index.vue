@@ -1,16 +1,17 @@
 <template lang="html">
 <div class="container">
-<el-form ref="form" :model="form" label-width="160px">
+<el-form ref="form" :model="form" :rules="formRules" label-width="160px">
   <p>所属工程</p>
   <el-form-item label="工程名称" prop="name">
     <el-input v-model="form.name"></el-input>
   </el-form-item>
-  <el-form-item label="建设单位" prop="entities[0]">
+  <el-form-item label="建设单位" prop="entities[0]" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
     <el-select
       v-model="form.entities[0]"
       filterable
       remote
       reserve-keyword
+      value-key="name"
       placeholder="请输入关键词"
       :remote-method="onSearchEntity('owner')"
       :loading="loading">
@@ -21,14 +22,15 @@
         :value="item">
       </el-option>
     </el-select>
-    <el-button type="text" @click="dialogFormVisible=true">创建单位</el-button>
+    <el-button type="el-button el-button--primary" @click="dialogFormVisible=true">如果搜索不到，请点击创建</el-button>
   </el-form-item>
-  <el-form-item label="监理单位" prop="entities[1]">
+  <el-form-item label="监理单位" prop="entities[1]" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
     <el-select
       v-model="form.entities[1]"
       filterable
       remote
       reserve-keyword
+      value-key="name"
       placeholder="请输入关键词"
       :remote-method="onSearchEntity('supervisor')"
       :loading="loading">
@@ -40,12 +42,13 @@
       </el-option>
     </el-select>
   </el-form-item>
-  <el-form-item label="施工单位"  prop="entities[2]">
+  <el-form-item label="施工单位"  prop="entities[2]" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
     <el-select
       v-model="form.entities[2]"
       filterable
       remote
       reserve-keyword
+      value-key="name"
       placeholder="请输入关键词"
       :remote-method="onSearchEntity('builder')"
       :loading="loading">
@@ -57,12 +60,13 @@
       </el-option>
     </el-select>
   </el-form-item>
-  <el-form-item label="设计单位" prop="entities[3]">
+  <el-form-item label="设计单位" prop="entities[3]" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
     <el-select
       v-model="form.entities[3]"
       filterable
       remote
       reserve-keyword
+      value-key="name"
       placeholder="请输入关键词"
       :remote-method="onSearchEntity('designer')"
       :loading="loading">
@@ -76,13 +80,13 @@
   </el-form-item>
   <el-form-item>
     <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="onProjectSubmit">确 定</el-button>
+    <el-button type="primary" @click="onSubmit('form')">确 定</el-button>
   </el-form-item>
 </el-form>
 <el-dialog title="单位设定" :visible.sync="dialogFormVisible" top="0">
-  <el-form ref="entityForm" :model="entity" label-width="30%">
+  <el-form ref="entityForm" :model="entity" :rules="entityFormRules" label-width="30%">
     <el-form-item label="单位类型" prop="type">
-      <el-select v-model="entity.type" filterable placeholder="请选择">
+      <el-select v-model="entity.type" filterable placeholder="请点击下拉框选取">
         <el-option
           v-for="item in entities"
           :key="item.value"
@@ -95,7 +99,7 @@
       <el-input v-model="entity.name"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button @click="dialogFormVisible = false">放弃</el-button>
       <el-button type="primary" @click="onEntitySubmit">确 定</el-button>
     </el-form-item>
   </el-form>
@@ -134,14 +138,35 @@ export default {
       }, {
         value: 'supervisor',
         label: '监理单位'
-      }]
+      }],
+      formRules: {
+        name: [
+          { required: true, message: '必须：请务必填写工程名', trigger: 'blur' },
+          { min: 3, message: '长度不能少于 3 个字符', trigger: 'blur' }
+        ]
+      },
+      entityFormRules: {
+        type: [
+          { required: true, message: '必须：请务必选择单位类型', trigger: 'blur' }
+        ],
+        name: [
+          { required: true, message: '必须：请务必填写单位名称', trigger: 'blur' },
+          { min: 3, message: '长度不能少于 3 个字符', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
     onEntitySubmit() {
-      this.dialogFormVisible = false
-      this.$store.dispatch('addEntity', this.entity).then(context => {
-        this.$refs.entityForm.resetFields()
+      this.$refs['entityForm'].validate(valid => {
+        if (valid) {
+          this.$store.dispatch('addEntity', this.entity).then(context => {
+            if (context.status === 'success') {
+              this.$refs['entityForm'].resetFields()
+              this.dialogFormVisible = false
+            }
+          })
+        }
       })
     },
     onSearchEntity(type) {
@@ -157,9 +182,15 @@ export default {
         }
       }
     },
-    onProjectSubmit() {
-      this.$store.dispatch('addProject', this.form).then(context => {
-        this.$refs.form.resetFields()
+    onSubmit(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$store.dispatch('addProject', this.form).then(context => {
+            if (context.status === 'success') {
+              this.$refs[formName].resetFields()
+            }
+          })
+        }
       })
     }
   }

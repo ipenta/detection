@@ -6,6 +6,7 @@ import * as projectService from '@/service/project'
 import * as inspectionService from '@/service/inspection'
 import * as entryService from '@/service/entry'
 import * as principalService from '@/service/principal'
+import * as recordService from '@/service/record'
 
 Vue.use(Vuex)
 
@@ -83,6 +84,12 @@ const actions = {
     state
   }, payload) {
     return principalService.search(payload)
+  },
+  addRecord({
+    commit,
+    state
+  }, payload) {
+    return recordService.add(payload)
   }
 }
 

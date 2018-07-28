@@ -1,26 +1,34 @@
 <template lang="html">
-<router-view/>
+<div class="main">
+  <ul class="menu">
+    <li><router-link to="/record">记录</router-link></li>
+    <li><router-link to="/entry/1">新增条目</router-link></li>
+  </ul>
+  <router-view/>
+</div>
 </template>
 
 <script>
 export default {
-  computed: {
-    msgCount() {
-      var type = this.$store.state.message.type
-      var msg = this.$store.state.message.content
-      if (msg !== '') {
-        var param = {
-          'type': type,
-          message: msg
-        }
-        console.log(this.$message)
-        this.$message(param)
-      }
-      return this.$store.state.msg.count
-    }
-  }
 }
 </script>
 
 <style lang="css">
+.menu{
+  position: absolute;
+  height: 40px;
+  margin: 0 0 0 15px;
+  padding: 0;
+}
+.menu li{
+  list-style: none;
+  float: right;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0 15px;
+  line-height: 40px;
+}
+.container{
+  padding-top: 40px;
+}
 </style>
