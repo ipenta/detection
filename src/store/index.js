@@ -1,14 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
+import actions from './actions'
+import getters from './getters'
+import mutations from './mutations'
+
 import EntityVO from '@/service/model/EntityVO'
-import * as entityService from '@/service/entity'
-import * as projectService from '@/service/project'
-import * as inspectionService from '@/service/inspection'
-import * as entryService from '@/service/entry'
-import * as principalService from '@/service/principal'
-import * as recordService from '@/service/record'
+
+import account from './modules/account'
 
 Vue.use(Vuex)
+
+let isDebugMode = process.env.NODE_ENV !== 'production'
 
 const state = {
   entity: new EntityVO(),
@@ -20,87 +23,35 @@ const state = {
   }
 }
 
-const getters = {
-  message: state => state.message
-}
-
-const actions = {
-  addEntity({
-    commit,
-    state
-  }, payload) {
-    return entityService.add(payload)
-  },
-  searchEntity({
-    commit,
-    state
-  }, payload) {
-    return entityService.search(payload)
-  },
-  addProject({
-    commit,
-    state
-  }, payload) {
-    return projectService.add(payload)
-  },
-  searchProject({
-    commit,
-    state
-  }, payload) {
-    return projectService.search(payload)
-  },
-  addInspection({
-    commit,
-    state
-  }, payload) {
-    return inspectionService.add(payload)
-  },
-  searchInspection({
-    commit,
-    state
-  }, payload) {
-    return inspectionService.search(payload)
-  },
-  addEntry({
-    commit,
-    state
-  }, payload) {
-    return entryService.add(payload)
-  },
-  getEntryByOrderId({
-    commit,
-    state
-  }, payload) {
-    return entryService.getEntryByOrderId(payload)
-  },
-  addPrincipal({
-    commit,
-    state
-  }, payload) {
-    return principalService.add(payload)
-  },
-  searchPrincipal({
-    commit,
-    state
-  }, payload) {
-    return principalService.search(payload)
-  },
-  addRecord({
-    commit,
-    state
-  }, payload) {
-    return recordService.add(payload)
-  }
-}
-
-const mutations = {
-}
-
 const store = new Vuex.Store({
   state,
   mutations,
   actions,
-  getters
+  getters,
+  modules: {
+    account
+  },
+  strict: isDebugMode
 })
+
+// 热重载
+if (module.hot) {
+  module.hot.accept([
+    './getters',
+    './actions',
+    './mutations',
+    './modules/account'
+  ], () => {
+    // 因为 babel 6 的模块编译格式问题，这里需要加上 .default
+    store.hotUpdate({
+      getters: require('./getters').default,
+      actions: require('./actions').default,
+      mutations: require('./mutations').default,
+      modules: {
+        account: require('./modules/account').default
+      }
+    })
+  })
+}
 
 export default store

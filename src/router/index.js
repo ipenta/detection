@@ -1,38 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/views/Home'
-
-import Record from '@/views/Record'
-import Project from '@/views/Project'
-import Inspection from '@/views/Inspection'
-import Entry from '@/views/Entry'
-import Principal from '@/views/Principal'
-import Order from '@/views/Order'
-
+import Routes from './routes'
 Vue.use(Router)
 
-export default new Router({
-  routes: [{
-    path: '/',
-    component: Home,
-    children: [{
-      path: 'record',
-      component: Record
-    }, {
-      path: 'project',
-      component: Project
-    }, {
-      path: 'inspection',
-      component: Inspection
-    }, {
-      path: 'entry/:id',
-      component: Entry
-    }, {
-      path: 'principal',
-      component: Principal
-    }, {
-      path: 'order/:id',
-      component: Order
-    }]
-  }]
+const defaultRoutes = [{
+  path: '/logon',
+  name: 'logon',
+  component: (resolve) => require(['@/views/sys/Logon'], resolve)
+}, {
+  path: '/register',
+  name: 'register',
+  component: (resolve) => require(['@/views/sys/Register'], resolve)
+}]
+
+const pageRouter = new Router({
+  routes: defaultRoutes.concat(Routes)
 })
+
+pageRouter.beforeEach((to, from, next) => {
+  console.log(to, from)
+  next()
+})
+
+export default pageRouter

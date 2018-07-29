@@ -6,6 +6,7 @@ const Inspection = datastore({filename: 'static/store/inspection.json',autoload:
 const Entry = datastore({filename: 'static/store/entry.json',autoload: true})
 const Principal = datastore({filename: 'static/store/principal.json',autoload: true})
 const Record = datastore({filename: 'static/store/record.json',autoload: true})
+const User = datastore({filename: 'static/store/user.json',autoload: true})
 
 module.exports = {
   Entity: Entity,
@@ -13,5 +14,6 @@ module.exports = {
   Inspection: Inspection,
   Entry: Entry,
   Principal: Principal,
-  Record: Record
+  Record: Record,
+  User: User
 }

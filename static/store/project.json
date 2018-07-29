@@ -2,8 +2,8 @@
 {"name":"上海龚瑟大厦","entities":[{"type":"owner","name":"上海卓伟"},{"type":"designer","name":"上海启元"},{"type":"supervisor","name":"上海大魏"},{"type":"builder","name":"长沙建设"}],"_id":"P7rvh3KgGQqrCffT"}
 {"name":"北京建筑群","entities":[{"name":"北京德源","type":"owner","_id":"bRhOiM8cqZUdGsSS"},{"name":"北京检择","type":"supervisor","_id":"lb6vXJbdqvSqLEeT"},{"name":"北京建设","type":"builder","_id":"WJ2KYYQgYkpVlxel"},{"name":"北京光威","type":"designer","_id":"Gh2BxrspZ7KnwFDZ"}],"_id":"STkJL436aYgr1NRG"}
 {"name":"南京国际大厦","entities":[{"name":"北京鼎鑫","type":"owner","_id":"fy5s3gjDB13JVYbd"},{"name":"北京检择","type":"supervisor","_id":"lb6vXJbdqvSqLEeT"},{"name":"北京建设","type":"builder","_id":"WJ2KYYQgYkpVlxel"},{"name":"北京光威","type":"designer","_id":"Gh2BxrspZ7KnwFDZ"}],"_id":"USXNywBtadjlgBZd"}
+{"name":"","entities":[],"_id":"Y6TwPA2fTNKaugDs"}
 {"name":"北京工业大楼","entities":[{"name":"北京德源","type":"owner","_id":"bRhOiM8cqZUdGsSS"},{"name":"北京检择","type":"supervisor","_id":"lb6vXJbdqvSqLEeT"},{"name":"北京建设","type":"builder","_id":"WJ2KYYQgYkpVlxel"},{"name":"北京光威","type":"designer","_id":"Gh2BxrspZ7KnwFDZ"}],"_id":"egOeCIcUQ7dW4BVE"}
+{"name":"","entities":[],"_id":"fqADmR9lta54M2c6"}
 {"name":"速度发发发","entities":[{"name":"北京德源","type":"owner","_id":"bRhOiM8cqZUdGsSS"},{"name":"北京检择","type":"supervisor","_id":"lb6vXJbdqvSqLEeT"},{"name":"北京建设","type":"builder","_id":"WJ2KYYQgYkpVlxel"},{"name":"北京光威","type":"designer","_id":"Gh2BxrspZ7KnwFDZ"}],"_id":"jzUA57cBed17hT1D"}
 {"name":"经济日报大楼","entities":[{"type":"owner","name":"北京德源"},{"type":"designer","name":"北京光威"},{"type":"supervisor","name":"北京检择"},{"type":"builder","name":"上海东阳"}],"_id":"s0ccZoElc1LQt6GB"}
-{"name":"","entities":[],"_id":"Y6TwPA2fTNKaugDs"}
-{"name":"","entities":[],"_id":"fqADmR9lta54M2c6"}
