@@ -1,21 +1,31 @@
 import * as userService from '@/service/sys/user'
-import AccountVO from '@/service/model/sys/AccountVO'
 import * as types from '@/store/mutation-type'
 
-let userId = window.sessionStorage.userId || ''
+const state = {
+  token: '',
+  email: ''
+}
 
-const state = new AccountVO(userId)
-const getters = {}
+const getters = {
+  hasLogon: state => state.token,
+  email: state => state.email
+}
+
 const actions = {
   logon({ commit, state }, payload) {
     return userService.findOne(payload).then(account => {
-      commit(types.SET_ACCOUNT, account)
+      commit(types.SET_TOKEN, account.token)
+      commit(types.SET_EMAIL, account.email)
     })
   }
 }
+
 const mutations = {
-  [types.SET_ACCOUNT] (state, data) {
-    Object.assign(state, data)
+  [types.SET_TOKEN]: (state, token) => {
+    state.token = token
+  },
+  [types.SET_EMAIL]: (state, email) => {
+    state.email = email
   }
 }
 

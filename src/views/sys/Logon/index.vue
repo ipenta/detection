@@ -14,6 +14,7 @@
 
 <script>
 import { validEmail } from '@/utils/validate'
+import { mapActions } from 'vuex'
 export default {
   data() {
     let validateEmail = (rule, value, callback) => {
@@ -43,11 +44,12 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['logon']),
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch('logon', this.form).then(result => {
-            this.$router.push('/')
+          this.logon(this.form).then(result => {
+            this.$router.push(this.$route.query.redirect || '/')
           })
         }
       })
