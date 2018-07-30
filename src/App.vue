@@ -25,9 +25,6 @@ html,body{
   height: 100%;
   overflow:hidden;
 }
-.container{
-  padding: 24px;
-}
 .dialog-form{
   max-width: 600px;
 }

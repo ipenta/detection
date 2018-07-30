@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="container">
-  <p>委托信息</p>
+  <Breadcrumb :items="breadcrumb"></Breadcrumb>
   <el-form ref="form" :model="form" :rules="formRules" label-width="160px" class="simple-form">
     <el-form-item label="委托方案全称" prop="title">
         <el-input v-model="form.title"></el-input>
@@ -65,10 +65,15 @@
 </template>
 
 <script>
+import Breadcrumb from '@/components/Breadcrumb'
 import { EntityMap } from '@/utils/map'
 export default {
   data() {
     return {
+      breadcrumb: [
+        { label: '记录' },
+        { label: '记录管理' }
+      ],
       form: {
         title: '',
         project: '',
@@ -149,6 +154,9 @@ export default {
         }
       })
     }
+  },
+  components: {
+    Breadcrumb
   }
 }
 </script>
@@ -156,5 +164,6 @@ export default {
 <style lang="css">
 .simple-form{
   max-width: 800px;
+  margin-top: 20px;
 }
 </style>

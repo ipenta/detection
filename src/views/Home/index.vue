@@ -40,7 +40,4 @@ export default {
 .el-menu-item{
   vertical-align: middle;
 }
-.container{
-  padding-top: 40px;
-}
 </style>
