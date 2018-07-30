@@ -7,8 +7,8 @@ const state = {
 }
 
 const getters = {
-  hasLogon: state => state.token,
-  email: state => state.email
+  hasLogon: state => 'fqADmR9lta54M2c6',
+  email: state => 'test@test.cn'
 }
 
 const actions = {

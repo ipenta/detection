@@ -41,6 +41,9 @@ export default {
 </script>
 
 <style lang="css">
+.header{
+  border-bottom: 1px solid #e5e5e5;
+}
 .el-menu-item h2{
   margin: 0;
 }
