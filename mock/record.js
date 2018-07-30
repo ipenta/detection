@@ -15,6 +15,19 @@ const proxy = {
         msg: err.errorType
       });
     })
+  },
+  'GET /api/record': (req, resp) => {
+    RecordSource.find(req.body).then(result => {
+      resp.json({
+        status: 'success',
+        data: result
+      });
+    }).catch(err => {
+      resp.json({
+        status: 'error',
+        msg: err.errorType
+      });
+    })
   }
 }
 module.exports = proxy;

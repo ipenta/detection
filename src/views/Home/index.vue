@@ -7,7 +7,7 @@
         <Sidebar></Sidebar>
       </el-col>
       <el-col :span="20">
-        <router-view/>
+        <router-view class="view"/>
       </el-col>
     </el-row>
   </div>
@@ -34,10 +34,23 @@ export default {
   overflow-x: hidden;
   height: inherit;
 }
+.view{
+  padding: 5px;
+}
 .el-row{
   height: inherit;
 }
 .el-menu-item{
   vertical-align: middle;
+}
+.container{
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.el-table td{
+  padding: 6px 0;
+}
+div.cell{
+  overflow: hidden;
 }
 </style>

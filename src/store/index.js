@@ -8,6 +8,7 @@ import mutations from './mutations'
 import EntityVO from '@/service/model/EntityVO'
 
 import account from './modules/account'
+import record from './modules/record'
 
 Vue.use(Vuex)
 
@@ -29,7 +30,8 @@ const store = new Vuex.Store({
   actions,
   getters,
   modules: {
-    account
+    account,
+    record
   },
   strict: isDebugMode
 })

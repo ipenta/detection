@@ -58,21 +58,21 @@
     </el-form-item>
     <el-form-item>
       <el-button>取 消</el-button>
-      <el-button type="primary" @click="onSubmit('form')">完成,继续委托明细</el-button>
+      <el-button type="primary" @click="onSubmit('form', 'addRecord')">完成,继续委托明细</el-button>
     </el-form-item>
   </el-form>
 </div>
 </template>
 
 <script>
-import Breadcrumb from '@/components/Breadcrumb'
 import { EntityMap } from '@/utils/map'
+import Breadcrumb from '@/components/Breadcrumb'
 export default {
   data() {
     return {
       breadcrumb: [
         { label: '记录' },
-        { label: '记录管理' }
+        { label: '记录表单' }
       ],
       form: {
         title: '',
@@ -143,10 +143,11 @@ export default {
         })
       }
     },
-    onSubmit(formName) {
+    onSubmit(formName, action) {
+      console.log(this.url)
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch('addRecord', this.form).then(msg => {
+          this.$store.dispatch(action, this.form).then(msg => {
             if (msg.status === 'success') {
               this.$refs[formName].resetFields()
             }
