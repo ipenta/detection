@@ -5,7 +5,6 @@ const EntitySource = store.Entity;
 const proxy = {
   'POST /api/entity': (req, resp) => {
     EntitySource.insert(req.body).then(result => {
-      console.log(result)
       resp.json({
         status: 'success',
         msg: '插入成功！'
@@ -36,7 +35,6 @@ const proxy = {
     if (name) {
       query = { name: eval('/'+name+'/i') }
     }
-    console.log(query)
     EntitySource.find(query).then(result => {
       console.log(result)
       resp.json({

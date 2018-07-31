@@ -19,9 +19,11 @@ const proxy = {
   },
   'GET /api/project/search': (req, resp) => {
     let name = req.query.name
-    ProejctSource.find({
-      name: eval('/'+name+'/i')
-    }).then(result => {
+    let query = {}
+    if (name) {
+      query = { name: eval('/'+name+'/i') }
+    }
+    ProejctSource.find(query).then(result => {
       resp.json({
         status: 'success',
         data: result
