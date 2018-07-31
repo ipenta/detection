@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="container">
-  <p>委托人</p>
+  <Breadcrumb :items="breadcrumb"></Breadcrumb>
   <el-form ref="principalForm" :model="principalForm" :rules="principalFormRules" label-width="160px" class="simple-form">
     <el-form-item label="委托人" prop="name">
         <el-input v-model="principalForm.name"></el-input>
@@ -9,7 +9,7 @@
         <el-input v-model="principalForm.phonenum"></el-input>
     </el-form-item>
     <el-form-item>
-      <router-link to="/record" class="el-button">放 弃</router-link>
+      <el-button @click="$router.go(-1)">取 消</el-button>
       <el-button type="primary" @click="onSubmit('principalForm')">确 定</el-button>
     </el-form-item>
   </el-form>
@@ -17,6 +17,7 @@
 </template>
 <script>
 import { isvalidPhone } from '@/utils/validate'
+import Breadcrumb from '@/components/Breadcrumb'
 export default {
   data() {
     let validatePhone = (rule, value, callback) => {
@@ -29,6 +30,10 @@ export default {
       }
     }
     return {
+      breadcrumb: [
+        { label: '委托人管理' },
+        { label: '表单' }
+      ],
       principalForm: {
         name: '',
         phonenum: ''
@@ -56,6 +61,9 @@ export default {
         }
       })
     }
+  },
+  components: {
+    Breadcrumb
   }
 }
 </script>

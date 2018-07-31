@@ -19,9 +19,11 @@ const proxy = {
   },
   'GET /api/principal/search': (req, resp) => {
     let name = req.query.name
-    PrincipalSource.find({
-      name: eval('/'+name+'/i')
-    }).then(result => {
+    let query = {}
+    if (name) {
+      query = { name: eval('/'+name+'/i') }
+    }
+    PrincipalSource.find(query).then(result => {
       resp.json({
         status: 'success',
         data: result

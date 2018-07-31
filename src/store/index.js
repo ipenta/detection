@@ -10,6 +10,7 @@ import EntityVO from '@/service/model/EntityVO'
 import account from './modules/account'
 import record from './modules/record'
 import inspection from './modules/inspection'
+import principal from './modules/principal'
 
 Vue.use(Vuex)
 
@@ -33,7 +34,8 @@ const store = new Vuex.Store({
   modules: {
     account,
     record,
-    inspection
+    inspection,
+    principal
   },
   strict: isDebugMode
 })
