@@ -52,6 +52,9 @@ export default {
 .el-table td{
   padding: 6px 0;
 }
+.el-table th{
+  background-color: #f6f6f6;
+}
 div.cell{
   overflow: hidden;
 }
