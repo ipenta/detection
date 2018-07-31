@@ -13,7 +13,7 @@
     </el-col>
     <el-col :span="1"><div class="single"></div></el-col>
     <el-col :span="3">
-      <router-link :to="{ name: 'record/form' }" class="el-button" style="width:100%;">添加</router-link>
+      <router-link :to="{ name: 'inspection/form' }" :from="{ name: '/inspection'}" class="el-button" style="width:100%;">添加</router-link>
     </el-col>
   </el-row>
   <div style="margin:0 12px;">

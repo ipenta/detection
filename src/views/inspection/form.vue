@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="container">
-    <p>检测项目</p>
+    <Breadcrumb :items="breadcrumb"></Breadcrumb>
     <el-form ref="inspectionForm" :model="inspectionVO" :rules="inspectionFormRules" label-width="160px">
       <el-form-item label="材料/项目名称" prop="text">
         <el-input v-model="inspectionVO.text"></el-input>
@@ -20,6 +20,7 @@
         </el-checkbox-group>
       </el-form-item>
       <el-form-item>
+        <el-button @click="$router.go(-1)">放弃</el-button>
         <el-button type="primary" @click="onSubmit('inspectionForm')">创建项目</el-button>
       </el-form-item>
     </el-form>
@@ -27,11 +28,15 @@
 </template>
 
 <script>
+import Breadcrumb from '@/components/Breadcrumb'
 const methodOptions = ['送样检测', '现场检测']
-
 export default {
   data() {
     return {
+      breadcrumb: [
+        { label: '检测项管理' },
+        { label: '表单' }
+      ],
       inspectionVO: {
         text: '',
         type: '',
@@ -73,21 +78,31 @@ export default {
       }
     }
   },
+  mounted: function () {
+    console.log(this.$route)
+  },
   methods: {
     onSubmit: function (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store.dispatch('addInspection', this.inspectionVO).then(msg => {
             if (msg.status === 'success') {
+              this.$router.go(-1)
               this.$refs[formName].resetFields()
             }
           })
         }
       })
     }
+  },
+  components: {
+    Breadcrumb
   }
 }
 </script>
 
 <style lang="css">
+.el-form{
+  width: 600px!important;
+}
 </style>
