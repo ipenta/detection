@@ -4,10 +4,9 @@
     <el-submenu index="1">
       <template slot="title"><i class="el-icon-menu"></i>订单</template>
       <el-menu-item index="/order">订单管理</el-menu-item>
-      <el-menu-item index="/detail">细类管理</el-menu-item>
     </el-submenu>
     <el-submenu index="2">
-      <template slot="title"><i class="el-icon-edit"></i>数据添加</template>
+      <template slot="title"><i class="el-icon-edit"></i>数据</template>
       <el-menu-item index="/project">项目信息</el-menu-item>
       <el-menu-item index="/entity">单位信息</el-menu-item>
       <el-menu-item index="/principal">委托人信息</el-menu-item>

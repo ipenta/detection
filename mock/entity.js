@@ -36,7 +36,6 @@ const proxy = {
       query = { name: eval('/'+name+'/i') }
     }
     EntitySource.find(query).then(result => {
-      console.log(result)
       resp.json({
         status: 'success',
         data: result

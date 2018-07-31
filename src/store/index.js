@@ -12,6 +12,7 @@ import record from './modules/record'
 import inspection from './modules/inspection'
 import principal from './modules/principal'
 import entity from './modules/entity'
+import project from './modules/project'
 
 Vue.use(Vuex)
 
@@ -37,7 +38,8 @@ const store = new Vuex.Store({
     record,
     inspection,
     principal,
-    entity
+    entity,
+    project
   },
   strict: isDebugMode
 })

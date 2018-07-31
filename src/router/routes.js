@@ -10,6 +10,7 @@ import PrincipalList from '@/views/principal/list'
 import OrderForm from '@/views/order/form'
 import OrderList from '@/views/order/list'
 import EntityList from '@/views/entity/list'
+import EntityForm from '@/views/entity/form'
 import EntryList from '@/views/entry/list'
 import EntryForm from '@/views/entry/form'
 
@@ -37,6 +38,10 @@ const routes = [{
     path: 'entity',
     name: 'entity',
     component: EntityList
+  }, {
+    path: 'entity/form',
+    name: 'entity/form',
+    component: EntityForm
   }, {
     path: 'inspection',
     name: 'inspection',

@@ -22,7 +22,7 @@
         :value="item">
       </el-option>
     </el-select>
-    <el-button type="el-button el-button--primary" @click="dialogFormVisible=true">如果搜索不到，请点击创建</el-button>
+    <router-link :to="{ name: 'entity/form' }" class="el-button el-button--primary">如果搜索不到，请点击创建</router-link>
   </el-form-item>
   <el-form-item label="监理单位" prop="entities[1]" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
     <el-select
