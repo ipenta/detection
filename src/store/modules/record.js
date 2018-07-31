@@ -6,12 +6,11 @@ const state = {
 }
 
 const getters = {
-  records: state => state.records,
-  searchInput: state => state.searchInput
+  records: state => state.records
 }
 
 const actions = {
-  getRecords: ({ commit, state }, payload) => {
+  getEntities: ({ commit, state }, payload) => {
     return recordService.find(payload).then(results => {
       commit(types.SET_RECORDS, results)
     })

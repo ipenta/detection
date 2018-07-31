@@ -29,6 +29,21 @@ const proxy = {
         data: result
       })
     })
+  },
+  'GET /api/entity/search': (req, resp) => {
+    let name = req.query.name
+    let query = {}
+    if (name) {
+      query = { name: eval('/'+name+'/i') }
+    }
+    console.log(query)
+    EntitySource.find(query).then(result => {
+      console.log(result)
+      resp.json({
+        status: 'success',
+        data: result
+      })
+    })
   }
 }
 module.exports = proxy;

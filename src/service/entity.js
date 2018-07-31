@@ -8,5 +8,5 @@ export function add(entity) {
 }
 
 export function search(entity) {
-  return httpResultProxy(axios.post(API.GET_ENTITY_LIST, entity))
+  return httpResultProxy(axios.get(API.SEARCH_ENTITY, {params: entity}))
 }
