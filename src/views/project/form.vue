@@ -1,8 +1,8 @@
 <template lang="html">
 <div class="container">
+<Breadcrumb :items="breadcrumb"></Breadcrumb>
 <el-form ref="form" :model="form" :rules="formRules" label-width="160px">
-  <p>所属工程</p>
-  <el-form-item label="工程名称" prop="name">
+  <el-form-item label="工程名称" prop="name" class="input">
     <el-input v-model="form.name"></el-input>
   </el-form-item>
   <el-form-item label="建设单位" prop="entities[0]" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
@@ -108,10 +108,15 @@
 </template>
 
 <script>
+import Breadcrumb from '@/components/Breadcrumb'
 import EntityVO from '@/service/model/EntityVO'
 export default {
   data() {
     return {
+      breadcrumb: [
+        { label: '工程管理' },
+        { label: '添加' }
+      ],
       form: {
         name: '',
         entities: []
@@ -193,6 +198,9 @@ export default {
         }
       })
     }
+  },
+  components: {
+    Breadcrumb
   }
 }
 </script>

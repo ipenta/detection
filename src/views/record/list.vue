@@ -1,18 +1,35 @@
 <template lang="html">
   <div class="container">
     <Breadcrumb :items="breadcrumb"></Breadcrumb>
-    <el-table :data="records" class="c-table">
-      <el-table-column label="委托方案" prop="title" width="160"></el-table-column>
-      <el-table-column label="所属工程" prop="project.name" width="160"></el-table-column>
-      <el-table-column label="委托单位" prop="entity"></el-table-column>
-      <el-table-column label="委托人" prop="principal.name"></el-table-column>
-      <el-table-column label="创建人" prop="creater.name"></el-table-column>
-      <el-table-column label="操作" fixed="right" width="100">
-        <template slot-scope="scope">
-          <el-button @click="detailRecord(scope.row)" type="text" size="small">查看</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-row type="flex" :gutter="24" style="margin-top:20px;margin-bottom:20px;">
+      <el-col :span="3">
+        <span class="textspan">方案</span>
+      </el-col>
+      <el-col :span="10">
+        <el-input placeholder="请输入关键字过滤" v-model="searchInput" class="queryinput"></el-input>
+      </el-col>
+      <el-col :span="3">
+        <el-button @click="getRecords('record')">查询</el-button>
+      </el-col>
+      <el-col :span="1"><div class="single"></div></el-col>
+      <el-col :span="4">
+        <router-link :to="{ name: 'record/form' }" class="el-button">添加新方案</router-link>
+      </el-col>
+    </el-row>
+    <div style="margin:0 12px;">
+      <el-table :data="records" class="c-table">
+        <el-table-column label="委托方案" prop="title" width="160"></el-table-column>
+        <el-table-column label="所属工程" prop="project.name" width="160"></el-table-column>
+        <el-table-column label="委托单位" prop="entity"></el-table-column>
+        <el-table-column label="委托人" prop="principal.name"></el-table-column>
+        <el-table-column label="创建人" prop="creater.name"></el-table-column>
+        <el-table-column label="操作" fixed="right" width="100">
+          <template slot-scope="scope">
+            <el-button @click="detailRecord(scope.row)" type="text" size="small">查看</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
@@ -23,21 +40,25 @@ export default {
   data() {
     return {
       breadcrumb: [
-        { label: '记录' },
-        { label: '记录管理' }
-      ]
+        { label: '方案' },
+        { label: '方案管理' }
+      ],
+      searchInput: ''
     }
   },
   computed: {
     ...mapGetters(['records'])
   },
   mounted: function () {
-    this.initRecordTable()
+    this.getRecords()
   },
   methods: {
-    ...mapActions(['initRecordTable']),
+    ...mapActions(['getRecords']),
     detailRecord: row => {
       console.log(row)
+    },
+    openAddCampusDialog: data => {
+      console.log(data)
     }
   },
   components: {
@@ -51,5 +72,11 @@ export default {
   border-top: 1px solid #eee;
   border-left: 1px solid #eee;
   border-right: 1px solid #eee;
+}
+.single{
+  position: relative;
+  width: 1px;
+  background-color: #aaa;
+  height: 40px;
 }
 </style>

@@ -1,11 +1,16 @@
 import Home from '@/views/Home'
 import RecordForm from '@/views/record/form'
 import RecordList from '@/views/record/list'
-import Project from '@/views/Project'
+import ProjectForm from '@/views/project/form'
+import ProjectList from '@/views/project/list'
 import Inspection from '@/views/Inspection'
-import Entry from '@/views/Entry'
-import Principal from '@/views/Principal'
-import Order from '@/views/Order'
+import PrincipalForm from '@/views/principal/form'
+import PrincipalList from '@/views/principal/list'
+import OrderForm from '@/views/order/form'
+import OrderList from '@/views/order/list'
+import EntityList from '@/views/entity/list'
+import EntryList from '@/views/entry/list'
+import EntryForm from '@/views/entry/form'
 
 const routes = [{
   path: '/',
@@ -20,25 +25,45 @@ const routes = [{
     name: 'record',
     component: RecordList
   }, {
+    path: 'project/form',
+    name: 'project/form',
+    component: ProjectForm
+  }, {
     path: 'project',
     name: 'project',
-    component: Project
+    component: ProjectList
+  }, {
+    path: 'entity',
+    name: 'entity',
+    component: EntityList
   }, {
     path: 'inspection',
     name: 'inspection',
     component: Inspection
   }, {
-    path: 'entry/:id',
+    path: 'entry',
     name: 'entry',
-    component: Entry
+    component: EntryList
+  }, {
+    path: 'entry/form',
+    name: 'entry/form',
+    component: EntryForm
   }, {
     path: 'principal',
     name: 'principal',
-    component: Principal
+    component: PrincipalList
   }, {
-    path: 'order/:id',
+    path: 'principal/form',
+    name: 'principal/form',
+    component: PrincipalForm
+  }, {
+    path: 'order',
     name: 'order',
-    component: Order
+    component: OrderList
+  }, {
+    path: 'order/form',
+    name: 'order/form',
+    component: OrderForm
   }]
 }]
 

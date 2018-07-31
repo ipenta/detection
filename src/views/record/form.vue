@@ -2,7 +2,7 @@
 <div class="container">
   <Breadcrumb :items="breadcrumb"></Breadcrumb>
   <el-form ref="form" :model="form" :rules="formRules" label-width="160px" class="simple-form">
-    <el-form-item label="委托方案全称" prop="title">
+    <el-form-item label="委托方案全称" prop="title" class="input">
         <el-input v-model="form.title"></el-input>
     </el-form-item>
     <el-form-item label="所属工程" prop="project">
@@ -22,7 +22,7 @@
           :value="item">
         </el-option>
       </el-select>
-      <router-link to="/project" class="el-button el-button--primary">新增工程</router-link>
+      &nbsp;&nbsp;&nbsp;<router-link to="/project" class="el-button el-button--primary">新增工程</router-link>
     </el-form-item>
     <el-form-item label="委托单位" prop="entity">
       <el-select v-model="form.entity" value-key="label" filterable placeholder="【所属工程】填写后可选">
@@ -51,13 +51,13 @@
           :value="item">
         </el-option>
       </el-select>
-      <router-link to="/principal" class="el-button el-button--primary">新增委托人</router-link>
+      &nbsp;&nbsp;&nbsp;<router-link to="/principal" class="el-button el-button--primary">新增委托人</router-link>
     </el-form-item>
     <el-form-item label="委托人电话">
-        <el-input :value="form.principal.phonenum" placeholder="【委托人】获取" disabled></el-input>
+      <span>{{ form.principal.phonenum || '' }}</span>
     </el-form-item>
     <el-form-item>
-      <el-button>取 消</el-button>
+      <router-link to="/" class="el-button">取消</router-link>
       <el-button type="primary" @click="onSubmit('form', 'addRecord')">完成,继续委托明细</el-button>
     </el-form-item>
   </el-form>
@@ -144,7 +144,6 @@ export default {
       }
     },
     onSubmit(formName, action) {
-      console.log(this.url)
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$store.dispatch(action, this.form).then(msg => {

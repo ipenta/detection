@@ -6,19 +6,20 @@ const state = {
 }
 
 const getters = {
-  records: state => state.records
+  records: state => state.records,
+  searchInput: state => state.searchInput
 }
 
 const actions = {
-  initRecordTable: ({ commit, state }, payload) => {
+  getRecords: ({ commit, state }, payload) => {
     return recordService.find(payload).then(results => {
-      commit(types.FIND_RECORDS, results)
+      commit(types.SET_RECORDS, results)
     })
   }
 }
 
 const mutations = {
-  [types.FIND_RECORDS]: (state, records) => {
+  [types.SET_RECORDS]: (state, records) => {
     state.records = records
   }
 }

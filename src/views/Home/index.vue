@@ -33,9 +33,10 @@ export default {
   z-index: 1;
   overflow-x: hidden;
   height: inherit;
+  margin: 0;
 }
 .view{
-  padding: 5px;
+  padding-top: 5px;
 }
 .el-row{
   height: inherit;
@@ -43,14 +44,22 @@ export default {
 .el-menu-item{
   vertical-align: middle;
 }
-.container{
-  margin-left: 16px;
-  margin-right: 16px;
-}
 .el-table td{
   padding: 6px 0;
 }
 div.cell{
   overflow: hidden;
+}
+.textspan {
+  color: #99a9bf;
+  padding: 10px 15px;
+  float: right;
+  font-size: 14px;
+}
+.el-breadcrumb{
+  margin-bottom: 30px!important;
+}
+.input{
+  width: 500px;
 }
 </style>
