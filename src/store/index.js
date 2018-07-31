@@ -9,6 +9,7 @@ import EntityVO from '@/service/model/EntityVO'
 
 import account from './modules/account'
 import record from './modules/record'
+import inspection from './modules/inspection'
 
 Vue.use(Vuex)
 
@@ -31,7 +32,8 @@ const store = new Vuex.Store({
   getters,
   modules: {
     account,
-    record
+    record,
+    inspection
   },
   strict: isDebugMode
 })

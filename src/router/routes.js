@@ -3,7 +3,8 @@ import RecordForm from '@/views/record/form'
 import RecordList from '@/views/record/list'
 import ProjectForm from '@/views/project/form'
 import ProjectList from '@/views/project/list'
-import Inspection from '@/views/Inspection'
+import InspectionForm from '@/views/inspection/form'
+import InspectionList from '@/views/inspection/list'
 import PrincipalForm from '@/views/principal/form'
 import PrincipalList from '@/views/principal/list'
 import OrderForm from '@/views/order/form'
@@ -39,7 +40,11 @@ const routes = [{
   }, {
     path: 'inspection',
     name: 'inspection',
-    component: Inspection
+    component: InspectionList
+  }, {
+    path: 'inspection/form',
+    name: 'inspection/form',
+    component: InspectionForm
   }, {
     path: 'entry',
     name: 'entry',

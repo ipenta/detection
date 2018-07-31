@@ -11,7 +11,7 @@
       <el-menu-item index="/project">项目信息</el-menu-item>
       <el-menu-item index="/entity">单位信息</el-menu-item>
       <el-menu-item index="/principal">委托人信息</el-menu-item>
-      <el-menu-item index="/entry">验证项信息</el-menu-item>
+      <el-menu-item index="/inspection">验证项信息</el-menu-item>
     </el-submenu>
   </el-menu>
 </div>

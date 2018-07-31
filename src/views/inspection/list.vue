@@ -6,7 +6,7 @@
       <span class="textspan">检测项目</span>
     </el-col>
     <el-col :span="10">
-      <el-input placeholder="请输入关键字过滤" v-model="entryItem" class="queryinput"></el-input>
+      <el-input placeholder="请输入关键字过滤" v-model="inspectionItem" class="queryinput"></el-input>
     </el-col>
     <el-col :span="3">
       <el-button @click="onSearchInput" style="width:100%;">查询</el-button>
@@ -17,7 +17,7 @@
     </el-col>
   </el-row>
   <div style="margin:0 12px;">
-    <el-table :data="data" class="c-table">
+    <el-table :data="inspections" class="c-table">
       <el-table-column label="检测项名称" prop="text" width="160"></el-table-column>
       <el-table-column label="检测项类型" prop="type" width="160"></el-table-column>
       <el-table-column label="收费标准" prop="price"></el-table-column>
@@ -35,7 +35,7 @@
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -43,14 +43,19 @@ export default {
         { label: '检测项管理' },
         { label: '列表' }
       ],
-      entryItem: '',
-      data: []
+      inspectionItem: ''
     }
   },
+  computed: {
+    ...mapGetters(['inspections'])
+  },
+  mounted: function() {
+    this.searchInspections()
+  },
   methods: {
-    ...mapActions(['searchInput']),
+    ...mapActions(['searchInspections']),
     onSearchInput: function () {
-      this.searchInput(this.entryItem)
+      this.searchInspections({ text: this.inspectionItem })
     },
     onCheckDetail: row => {
       console.log(row)

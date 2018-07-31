@@ -44,6 +44,11 @@ export default {
 .el-menu-item{
   vertical-align: middle;
 }
+.el-table{
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
 .el-table td{
   padding: 6px 0;
 }
@@ -61,5 +66,11 @@ div.cell{
 }
 .input{
   width: 500px;
+}
+.single{
+  width: 1px;
+  height: 40px;
+  margin: 0 auto;
+  background-color: #aaa;
 }
 </style>

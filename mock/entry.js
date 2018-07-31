@@ -29,6 +29,21 @@ const proxy = {
         msg: err.errorType
       });
     })
+  },
+  'GET /api/entries': (req, resp) => {
+    let query = req.query.text
+    console.log(query)
+    EntrySource.find({text: eval('/'+query+'/i')}).then(result => {
+      resp.json({
+        status: 'success',
+        data: result
+      });
+    }).catch(err => {
+      resp.json({
+        status: 'error',
+        msg: err.errorType
+      });
+    })
   }
 }
 module.exports = proxy;

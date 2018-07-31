@@ -18,9 +18,11 @@ const proxy = {
   },
   'GET /api/inspection/search': (req, resp) => {
     let text = req.query.text
-    InspectionSource.find({
-      text: eval('/'+text+'/i')
-    }).then(result => {
+    let query = {}
+    if (text) {
+      query = { text: eval('/'+text+'/i') }
+    }
+    InspectionSource.find(query).then(result => {
       resp.json({
         status: 'success',
         data: result
