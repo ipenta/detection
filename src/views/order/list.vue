@@ -5,21 +5,10 @@
     <el-table :data="data" style="width: 100%">
       <el-table-column prop="inspection.text" label="材料项目名称" width="120"></el-table-column>
       <el-table-column prop="inspection.type" label="检测类别"></el-table-column>
-      <el-table-column
-        prop="manufacturer"
-        label="生产厂家">
-      </el-table-column>
-      <el-table-column
-        prop="inspection.price"
-        label="收费标准">
-      </el-table-column>
-      <el-table-column
-        prop="number"
-        label="检测数量">
-      </el-table-column>
-      <el-table-column
-        prop="summary"
-        label="金额小计">
+      <el-table-column prop="manufacturer" label="生产厂家"></el-table-column>
+      <el-table-column prop="inspection.price" label="收费标准"></el-table-column>
+      <el-table-column prop="number" label="检测数量"></el-table-column>
+      <el-table-column prop="summary" label="金额小计">
         <template slot-scope="scope">
           {{scope.row.number * scope.row.inspection.price}}
         </template>
@@ -31,6 +20,7 @@
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -46,16 +36,15 @@ export default {
     this.getTableData()
   },
   computed: {
-    // 省略若干字段
+    ...mapGetters(['records']),
     columnTotal() {
       return this.data.map(row => row.number * row.inspection.price).reduce((acc, cur) => (cur + acc), 0)
     }
   },
   methods: {
+    ...mapActions(['searchRecords']),
     getTableData: function() {
-      this.$store.dispatch('getEntryByOrderId', { orderId: this.orderId }).then(result => {
-        this.data = result
-      })
+      this.searchRecords()
     }
   },
   components: {

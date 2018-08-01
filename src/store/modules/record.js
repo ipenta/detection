@@ -2,15 +2,17 @@ import * as recordService from '@/service/record'
 import * as types from '@/store/mutation-type'
 
 const state = {
-  records: []
+  records: [],
+  record: {}
 }
 
 const getters = {
-  records: state => state.records
+  records: state => state.records,
+  record: state => state.record
 }
 
 const actions = {
-  getEntities: ({ commit, state }, payload) => {
+  searchRecords: ({ commit, state }, payload) => {
     return recordService.find(payload).then(results => {
       commit(types.SET_RECORDS, results)
     })
@@ -20,6 +22,9 @@ const actions = {
 const mutations = {
   [types.SET_RECORDS]: (state, records) => {
     state.records = records
+  },
+  [types.SET_RECORD]: (state, record) => {
+    state.record = record
   }
 }
 

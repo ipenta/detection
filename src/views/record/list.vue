@@ -30,12 +30,15 @@
         </el-table-column>
       </el-table>
     </div>
+    <el-dialog :visible.sync="dialogVisible">
+      <h3>dialog</h3>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -43,19 +46,22 @@ export default {
         { label: '方案' },
         { label: '方案管理' }
       ],
-      searchInput: ''
+      searchInput: '',
+      dialogVisible: false
     }
   },
   computed: {
-    ...mapGetters(['records'])
+    ...mapGetters(['records', 'record'])
   },
   mounted: function () {
-    this.getRecords()
+    this.searchRecords()
   },
   methods: {
-    ...mapActions(['getRecords']),
-    detailRecord: row => {
-      console.log(row)
+    ...mapActions(['searchRecords']),
+    ...mapMutations(['SET_RECORD']),
+    detailRecord(row) {
+      this.SET_RECORD(row)
+      this.$router.push({path: '/record/detail', replace: true})
     },
     openAddCampusDialog: data => {
       console.log(data)

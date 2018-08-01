@@ -17,7 +17,12 @@ const proxy = {
     })
   },
   'GET /api/record': (req, resp) => {
-    RecordSource.find(req.body).then(result => {
+    let title = req.query.title
+    let query = {}
+    if (title) {
+      query = { title: eval('/'+title+'/i') }
+    }
+    RecordSource.find(query).then(result => {
       resp.json({
         status: 'success',
         data: result
