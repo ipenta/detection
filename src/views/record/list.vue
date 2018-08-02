@@ -13,7 +13,8 @@
       </el-col>
       <el-col :span="1"><div class="single"></div></el-col>
       <el-col :span="4">
-        <router-link :to="{ name: 'record/form', params:{ id: id } }" class="el-button">添加新方案</router-link>
+        <el-button @click="dialogFormVisible=true">添加新方案</el-button>
+        <!-- <router-link :to="{ name: 'record/form', params:{ id: id } }" class="el-button">添加新方案</router-link> -->
       </el-col>
     </el-row>
     <div style="margin:0 12px;">
@@ -52,11 +53,15 @@
         </el-table-column>
       </el-table>
     </div>
+    <el-dialog title="委托单" :visible.sync="dialogFormVisible" style="width:100%" v-if='dialogFormVisible'>
+      <RecordForm :content="content" @clean="onClean"></RecordForm>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
+import RecordForm from '@/components/RecordForm'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
@@ -75,7 +80,8 @@ export default {
         principal: ''
       },
       principals: [],
-      principal: ''
+      principal: '',
+      content: ''
     }
   },
   computed: {
@@ -87,11 +93,18 @@ export default {
   methods: {
     ...mapActions(['searchRecords']),
     formRecord(row) {
-      this.$router.push({name: 'record/form', params: row})
+      this.content = row
+      this.dialogFormVisible = true
+      // this.$router.push({name: 'record/form', params: row})
+    },
+    onClean() {
+      this.dialogFormVisible = false
+      this.searchRecords()
     }
   },
   components: {
-    Breadcrumb: Breadcrumb
+    Breadcrumb: Breadcrumb,
+    RecordForm: RecordForm
   }
 }
 </script>

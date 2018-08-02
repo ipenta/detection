@@ -21,7 +21,7 @@
           :value="item">
         </el-option>
       </el-select>
-      &nbsp;&nbsp;&nbsp;<router-link to="/project" class="el-button el-button--primary">新增工程</router-link>
+      &nbsp;&nbsp;&nbsp;<router-link to="/project" class="el-button" size="mini">新增工程</router-link>
     </el-form-item>
     <el-form-item label="委托单位" prop="entity">
       <el-select v-model="form.entity" value-key="name" filterable placeholder="【所属工程】填写后可选">
@@ -51,14 +51,14 @@
           :value="item">
         </el-option>
       </el-select>
-      &nbsp;&nbsp;&nbsp;<router-link to="/principal" class="el-button el-button--primary">新增委托人</router-link>
+      &nbsp;&nbsp;&nbsp;<router-link to="/principal" class="el-button" size="mini">新增委托人</router-link>
     </el-form-item>
     <el-form-item label="委托人电话">
       <span>{{ form.principal.phonenum || '' }}</span>
     </el-form-item>
     <el-form-item>
-      <el-button @click="$router.go(-1)">取消</el-button>
-      <el-button type="primary" @click="onSubmit('form', 'addRecord')">完成</el-button>
+      <el-button @click="onClose('form')">放弃</el-button>
+      <el-button type="primary" @click="onSubmit('form','addRecord')">修改</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -66,20 +66,19 @@
 <script>
 import { EntityMap } from '@/utils/map'
 export default {
-  props: ['data'],
+  props: ['content'],
   data() {
     return {
       form: {
-        _id: this.data._id || '',
-        uid: this.data.uid || '',
-        title: this.data.title || '',
-        project: this.data.project || '',
-        entity: this.data.entity || {},
-        principal: this.data.principal || ''
+        _id: this.content._id || '',
+        uid: this.content.uid || '',
+        title: this.content.title || '',
+        project: this.content.project || '',
+        entity: this.content.entity || {},
+        principal: this.content.principal || ''
       },
       principals: [],
       principal: '',
-      isPrincipalFormShow: false,
       projects: [],
       loading: false,
       record: '',
@@ -104,7 +103,7 @@ export default {
     entities: function() {
       let entities = []
       let _project = this.form.project
-      let _data = this.data
+      let _data = this.content
       if (_project !== '' && Array.isArray(_project.entities)) {
         _project.entities.forEach(item => {
           entities.push({
@@ -113,7 +112,7 @@ export default {
             label: EntityMap[item.type] + ' - ' + item.name
           })
         })
-        if (this.data.entity) {
+        if (this.content.entity) {
           let temp = entities[0]
           entities.map((v, i) => {
             if (v.key === _data.entity.name) {
@@ -156,11 +155,14 @@ export default {
           this.$store.dispatch(action, this.form).then(msg => {
             if (msg.status === 'success') {
               this.$refs[formName].resetFields()
-              this.$router.go(-1)
+              this.$emit('clean')
             }
           })
         }
       })
+    },
+    onClose() {
+      this.$emit('clean')
     }
   }
 }
