@@ -35,6 +35,11 @@ export default {
   height: inherit;
   margin: 0;
 }
+.detail {
+  border: 1px solid #eaeefb;
+  padding: 10px 30px 10px 10px;
+  border-radius: 4px;
+}
 .view{
   padding-top: 5px;
 }
