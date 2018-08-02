@@ -13,32 +13,51 @@
       </el-col>
       <el-col :span="1"><div class="single"></div></el-col>
       <el-col :span="4">
-        <router-link :to="{ name: 'record/form' }" class="el-button">添加新方案</router-link>
+        <router-link :to="{ name: 'record/form', params:{ id: id } }" class="el-button">添加新方案</router-link>
       </el-col>
     </el-row>
     <div style="margin:0 12px;">
       <el-table :data="records" class="c-table">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="table-expand">
+              <el-form-item label="委托方案">
+                <span>{{ props.row.title }}</span>
+              </el-form-item>
+              <el-form-item label="所属工程">
+                <span>{{ props.row.project.name }}</span>
+              </el-form-item>
+              <el-form-item label="委托单位">
+                <span>{{ props.row.entity.name }}</span>
+              </el-form-item>
+              <el-form-item label="委托人">
+                <span>{{ props.row.principal.name }}</span>
+              </el-form-item>
+              <el-form-item label="委托人电话">
+                <span>{{ props.row.principal.phonenum }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column label="委托方案" prop="title" width="160"></el-table-column>
         <el-table-column label="所属工程" prop="project.name" width="160"></el-table-column>
-        <el-table-column label="委托单位" prop="entity"></el-table-column>
+        <el-table-column label="委托单位" prop="entity.name"></el-table-column>
         <el-table-column label="委托人" prop="principal.name"></el-table-column>
         <el-table-column label="创建人" prop="creater.name"></el-table-column>
-        <el-table-column label="操作" fixed="right" width="100">
+        <el-table-column label="操作" fixed="right" width="160">
           <template slot-scope="scope">
-            <el-button @click="detailRecord(scope.row)" type="text" size="small">查看</el-button>
+            <el-button @click="formRecord(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="itemRecord(scope.row)" type="text" size="small">添加验证条目</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <el-dialog :visible.sync="dialogVisible">
-      <h3>dialog</h3>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -47,24 +66,28 @@ export default {
         { label: '方案管理' }
       ],
       searchInput: '',
-      dialogVisible: false
+      dialogFormVisible: false,
+      form: {
+        uid: '',
+        title: '',
+        project: '',
+        entity: '',
+        principal: ''
+      },
+      principals: [],
+      principal: ''
     }
   },
   computed: {
-    ...mapGetters(['records', 'record'])
+    ...mapGetters(['records', 'record', 'id'])
   },
   mounted: function () {
     this.searchRecords()
   },
   methods: {
     ...mapActions(['searchRecords']),
-    ...mapMutations(['SET_RECORD']),
-    detailRecord(row) {
-      this.SET_RECORD(row)
-      this.$router.push({path: '/record/detail', replace: true})
-    },
-    openAddCampusDialog: data => {
-      console.log(data)
+    formRecord(row) {
+      this.$router.push({name: 'record/form', params: row})
     }
   },
   components: {
@@ -84,5 +107,10 @@ export default {
   width: 1px;
   background-color: #aaa;
   height: 40px;
+}
+.table-expand .el-form-item{
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 40%;
 }
 </style>

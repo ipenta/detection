@@ -3,12 +3,14 @@ import * as types from '@/store/mutation-type'
 
 const state = {
   token: '',
-  email: ''
+  email: '',
+  id: ''
 }
 
 const getters = {
   hasLogon: state => 'fqADmR9lta54M2c6',
-  email: state => 'test@test.cn'
+  email: state => 'test@test.cn',
+  id: state => 'fqADmR9lta54M2c6'
 }
 
 const actions = {

@@ -4,7 +4,12 @@ const RecordSource = store.Record;
 
 const proxy = {
   'POST /api/record': (req, resp) => {
-    RecordSource.insert(req.body).then(result => {
+    let data = req.body
+    let id = data._id
+    delete data._id
+    let handler = (id !== '') ? RecordSource.update({_id:id},{$set:data},{upsert:true}) : RecordSource.insert(req.body)
+    handler.then(result => {
+      console.log(result)
       resp.json({
         status: 'success',
         msg: '插入成功！'
