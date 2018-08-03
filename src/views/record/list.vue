@@ -45,10 +45,10 @@
         <el-table-column label="委托单位" prop="entity.name"></el-table-column>
         <el-table-column label="委托人" prop="principal.name"></el-table-column>
         <el-table-column label="创建人" prop="creater.name"></el-table-column>
-        <el-table-column label="操作" fixed="right" width="160">
+        <el-table-column label="操作" fixed="right" width="240">
           <template slot-scope="scope">
-            <el-button @click="formRecord(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button @click="itemRecord(scope.row)" type="text" size="small">添加验证条目</el-button>
+            <el-button @click="formRecord(scope.row)" type="text" size="small">编辑委托单</el-button>
+            <el-button @click="detailRecord(scope.row)" type="text" size="small">添加检验明细</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -56,12 +56,16 @@
     <el-dialog title="委托单" :visible.sync="dialogFormVisible" style="width:100%" v-if='dialogFormVisible'>
       <RecordForm :content="content" @clean="onClean"></RecordForm>
     </el-dialog>
+    <el-dialog title="检测明细" :visible.sync="dialogItemVisible" style="width:100%" v-if='dialogItemVisible'>
+      <RecordItem></RecordItem>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
 import RecordForm from '@/components/RecordForm'
+import RecordItem from '@/components/RecordItem'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
@@ -72,6 +76,7 @@ export default {
       ],
       searchInput: '',
       dialogFormVisible: false,
+      dialogItemVisible: false,
       form: {
         uid: '',
         title: '',
@@ -97,6 +102,9 @@ export default {
       this.dialogFormVisible = true
       // this.$router.push({name: 'record/form', params: row})
     },
+    detailRecord(row) {
+      this.dialogItemVisible = true
+    },
     onClean() {
       this.dialogFormVisible = false
       this.searchRecords()
@@ -104,7 +112,8 @@ export default {
   },
   components: {
     Breadcrumb: Breadcrumb,
-    RecordForm: RecordForm
+    RecordForm: RecordForm,
+    RecordItem: RecordItem
   }
 }
 </script>
