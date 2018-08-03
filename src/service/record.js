@@ -8,5 +8,9 @@ export function add(record) {
 }
 
 export function find(query) {
-  return httpResultProxy(axios.get(API.ADD_RECORD, query))
+  return httpResultProxy(axios.get(API.QUERY_RECORDS, query))
+}
+
+export function findOne(query) {
+  return httpResultProxy(axios.get(API.QUERY_RECORD, {params: query}))
 }

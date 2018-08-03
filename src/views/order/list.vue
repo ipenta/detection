@@ -2,22 +2,43 @@
 <div class="container">
   <Breadcrumb :items="breadcrumb"></Breadcrumb>
   <div style="margin:0 12px;">
+    <div class="detail">
+      <el-form label-position="left" inline class="table-expand">
+        <!-- <el-form-item label="委托方案">
+          <span>{{ props.row.title }}</span>
+        </el-form-item>
+        <el-form-item label="所属工程">
+          <span>{{ props.row.project.name }}</span>
+        </el-form-item>
+        <el-form-item label="委托单位">
+          <span>{{ props.row.entity.name }}</span>
+        </el-form-item>
+        <el-form-item label="委托人">
+          <span>{{ props.row.principal.name }}</span>
+        </el-form-item>
+        <el-form-item label="委托人电话">
+          <span>{{ props.row.principal.phonenum }}</span>
+        </el-form-item> -->
+        <br>
+      </el-form>
+    </div>
+    <!--
     <el-row type="flex" :gutter="24" style="margin-top:20px;margin-bottom:20px;">
-      <!--
+
       <el-col :span="10">
         <el-input placeholder="请输入关键字过滤" v-model="searchInput" class="queryinput"></el-input>
       </el-col>
       <el-col :span="3">
         <el-button @click="getRecords('record')">查询</el-button>
       </el-col>
-      <el-col :span="1"><div class="single"></div></el-col> -->
+      <el-col :span="1"><div class="single"></div></el-col>
       <el-col :span="4">
         <el-button @click="handleCreate">添加新明细</el-button>
-        <!-- <router-link :to="{ name: 'record/form', params:{ id: id } }" class="el-button">添加新方案</router-link> -->
+        <router-link :to="{ name: 'record/form', params:{ id: id } }" class="el-button">添加新方案</router-link>
       </el-col>
       <el-col :span="4">
         <el-button>添加新检测项</el-button>
-        <!-- <router-link :to="{ name: 'record/form', params:{ id: id } }" class="el-button">添加新方案</router-link> -->
+         <router-link :to="{ name: 'record/form', params:{ id: id } }" class="el-button">添加新方案</router-link>
       </el-col>
     </el-row>
     <el-table :data="data" style="width: 100%;">
@@ -75,8 +96,9 @@
     <div class="tfoot">
       <span>总额：{{columnTotal}}</span>
       <el-button size="mini" type="danger" style="float:right;margin:10px 10px 0 0;">确认</el-button>
-    </div>
+    </div> -->
   </div>
+  {{record}}
 </div>
 </template>
 
@@ -107,16 +129,17 @@ export default {
     }
   },
   mounted: function() {
+    this.getRecordDetail(this.$route.params)
     this.searchInspections()
   },
   computed: {
-    ...mapGetters(['inspections']),
+    ...mapGetters(['inspections', 'record']),
     columnTotal() {
       return this.data.map(row => row.number * row.inspection.price).reduce((acc, cur) => (cur + acc), 0) || ''
     }
   },
   methods: {
-    ...mapActions(['searchInspections']),
+    ...mapActions(['searchInspections', 'getRecordDetail']),
     getTableData() {
       console.log('---')
     },
@@ -137,6 +160,11 @@ export default {
 </script>
 
 <style lang="css">
+.detail .el-form-item{
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 40%;
+}
 .tfoot{
   color: #909399;
   line-height: 50px;

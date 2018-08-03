@@ -21,13 +21,26 @@ const proxy = {
       });
     })
   },
-  'GET /api/record': (req, resp) => {
+  'GET /api/records': (req, resp) => {
     let title = req.query.title
     let query = {}
     if (title) {
       query = { title: eval('/'+title+'/i') }
     }
     RecordSource.find(query).then(result => {
+      resp.json({
+        status: 'success',
+        data: result
+      });
+    }).catch(err => {
+      resp.json({
+        status: 'error',
+        msg: err.errorType
+      });
+    })
+  },
+  'GET /api/record/query': (req, resp) => {
+    RecordSource.findOne({_id:req.query.id}).then(result => {
       resp.json({
         status: 'success',
         data: result

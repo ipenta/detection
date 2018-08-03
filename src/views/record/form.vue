@@ -6,7 +6,7 @@
 </template>
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
-import RecordForm from '@/components/RecordForm'
+import RecordForm from './RecordForm'
 export default {
   data() {
     return {

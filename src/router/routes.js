@@ -28,7 +28,7 @@ const routes = [{
     name: 'record',
     component: RecordList
   }, {
-    path: 'record/detail',
+    path: 'record/detail/:id',
     name: 'record/detail',
     component: RecordDetail
   }, {
@@ -72,7 +72,7 @@ const routes = [{
     name: 'principal/form',
     component: PrincipalForm
   }, {
-    path: 'order',
+    path: 'order/:id',
     name: 'order',
     component: OrderList
   }, {

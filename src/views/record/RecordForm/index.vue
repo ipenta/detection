@@ -57,8 +57,11 @@
       <span>{{ form.principal.phonenum || '' }}</span>
     </el-form-item>
     <el-form-item>
-      <el-button @click="onClose('form')">放弃</el-button>
-      <el-button type="primary" @click="onSubmit('form','addRecord')">修改</el-button>
+      <el-button size="mini" @click="onClose('form')">放弃</el-button>
+      <el-button type="primary" size="mini" @click="onSubmit('form','addRecord')">
+        <span v-if="content===''">添加</span>
+        <span v-if="content!==''">修改</span>
+      </el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -161,7 +164,8 @@ export default {
         }
       })
     },
-    onClose() {
+    onClose(formName) {
+      this.$refs[formName].resetFields()
       this.$emit('clean')
     }
   }

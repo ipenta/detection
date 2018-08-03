@@ -13,7 +13,7 @@
       </el-col>
       <el-col :span="1"><div class="single"></div></el-col>
       <el-col :span="4">
-        <el-button @click="dialogFormVisible=true">添加新方案</el-button>
+        <el-button @click="onCreate">添加新方案</el-button>
         <!-- <router-link :to="{ name: 'record/form', params:{ id: id } }" class="el-button">添加新方案</router-link> -->
       </el-col>
     </el-row>
@@ -38,7 +38,6 @@
                 <span>{{ props.row.principal.phonenum }}</span>
               </el-form-item>
               <br>
-              <el-button>sdfjjf </el-button>
             </el-form>
           </template>
         </el-table-column>
@@ -51,6 +50,7 @@
           <template slot-scope="scope">
             <el-button @click="formRecord(scope.row)" type="text" size="small">编辑委托单</el-button>
             <el-button @click="detailRecord(scope.row)" type="text" size="small">添加检验明细</el-button>
+            <el-button @click="editRecord(scope.row)" type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -66,7 +66,7 @@
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
-import RecordForm from '@/components/RecordForm'
+import RecordForm from './RecordForm'
 import RecordItem from '@/components/RecordItem'
 import { mapActions, mapGetters } from 'vuex'
 export default {
@@ -107,9 +107,18 @@ export default {
     detailRecord(row) {
       this.dialogItemVisible = true
     },
+    onCreate() {
+      this.dialogFormVisible = true
+      this.content = ''
+    },
     onClean() {
       this.dialogFormVisible = false
       this.searchRecords()
+    },
+    editRecord(row) {
+      if (row._id !== '') {
+        this.$router.push({path: '/record/detail/' + row._id})
+      }
     }
   },
   components: {

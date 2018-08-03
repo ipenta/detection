@@ -1,9 +1,10 @@
 import * as recordService from '@/service/record'
 import * as types from '@/store/mutation-type'
+import RecordVO from '@/service/model/RecordVO'
 
 const state = {
   records: [],
-  record: {}
+  record: new RecordVO()
 }
 
 const getters = {
@@ -15,6 +16,11 @@ const actions = {
   searchRecords: ({ commit, state }, payload) => {
     return recordService.find(payload).then(results => {
       commit(types.SET_RECORDS, results)
+    })
+  },
+  getRecordDetail: ({ commit, state }, payload) => {
+    return recordService.findOne(payload).then(result => {
+      commit(types.SET_RECORD, result)
     })
   }
 }
