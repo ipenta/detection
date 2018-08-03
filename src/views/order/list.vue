@@ -66,14 +66,15 @@
           {{scope.row.number * scope.row.inspection.price || ''}}
         </template>
       </el-table-column>
-      <el-table-column prop="summary" label="金额小计">
+      <el-table-column prop="summary" label="操作" fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, data)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="tfoot">
-      总额：{{columnTotal}}
+      <span>总额：{{columnTotal}}</span>
+      <el-button size="mini" type="danger" style="float:right;margin:10px 10px 0 0;">确认</el-button>
     </div>
   </div>
 </div>
@@ -138,7 +139,7 @@ export default {
 <style lang="css">
 .tfoot{
   color: #909399;
-  line-height: 40px;
+  line-height: 50px;
   background-color: #fdfdfd;
   padding: 0 10px;
   font-size: 14px;
@@ -147,5 +148,6 @@ export default {
   border-right: 1px solid #eee;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+  background-color: #f6f6f6;
 }
 </style>

@@ -37,6 +37,8 @@
               <el-form-item label="委托人电话">
                 <span>{{ props.row.principal.phonenum }}</span>
               </el-form-item>
+              <br>
+              <el-button>sdfjjf </el-button>
             </el-form>
           </template>
         </el-table-column>
