@@ -9,6 +9,6 @@ export default class EntryVO {
     this.recordId = data.recordId || ''
     this.inspection = data.inspection || new InspectionVO()
     this.manufacturer = data.manufacturer || ''
-    this.number = data.number || 0
+    this.number = data.number || 1
   }
 }
