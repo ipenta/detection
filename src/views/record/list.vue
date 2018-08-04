@@ -46,10 +46,8 @@
         <el-table-column label="委托单位" prop="entity.name"></el-table-column>
         <el-table-column label="委托人" prop="principal.name"></el-table-column>
         <el-table-column label="创建人" prop="creater.name"></el-table-column>
-        <el-table-column label="操作" fixed="right" width="240">
+        <el-table-column label="操作" fixed="right" width="60">
           <template slot-scope="scope">
-            <el-button @click="formRecord(scope.row)" type="text" size="small">编辑委托单</el-button>
-            <el-button @click="detailRecord(scope.row)" type="text" size="small">添加检验明细</el-button>
             <el-button @click="editRecord(scope.row)" type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>

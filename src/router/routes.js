@@ -1,5 +1,4 @@
 import Home from '@/views/Home'
-import RecordForm from '@/views/record/form'
 import RecordList from '@/views/record/list'
 import RecordDetail from '@/views/record/detail'
 import ProjectForm from '@/views/project/form'
@@ -20,10 +19,6 @@ const routes = [{
   name: 'home',
   component: Home,
   children: [{
-    path: 'record/form',
-    name: 'record/form',
-    component: RecordForm
-  }, {
     path: 'record',
     name: 'record',
     component: RecordList

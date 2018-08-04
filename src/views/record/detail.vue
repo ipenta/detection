@@ -2,7 +2,7 @@
   <div class="container">
     <Breadcrumb :items="breadcrumb"></Breadcrumb>
     <div style="margin:0 12px;">
-      <p>委托方案 &nbsp;&nbsp;&nbsp;<el-button size="mini" @click="editRecordDetail" v-show="showConext">修改</el-button></p>
+      <div class="f-header"><span>详细情况</span><el-button size="mini" @click="editRecordDetail" v-show="showConext" style="">修改</el-button></div>
       <el-form label-position="left" inline class="table-show" v-show="showConext">
         <el-form-item label="委托方案">
           <span>{{ record.title }}</span>
@@ -23,6 +23,7 @@
       <div v-if="!showConext">
         <RecordForm :content="record" @clean="onClean"></RecordForm>
       </div>
+      <hr style="border:1px dotted #ddd;margin:20px;" />
       <DetailTable :recordId="recordId"></DetailTable>
     </div>
   </div>
@@ -64,12 +65,6 @@ export default {
       this.showConext = true
       this.getRecordDetail({id: this.recordId})
     }
-    // handleCreate() {
-    //   this.createEntry(new EntryVO({recordId: this.recordId}))
-    // },
-    // onSubmitEntries() {
-    //   this.submitEntries(this.entries)
-    // }
   },
   components: {
     Breadcrumb: Breadcrumb,
@@ -80,14 +75,18 @@ export default {
 </script>
 
 <style lang="css">
+.table-show{
+  border: 1px solid #eee;
+  padding: 16px;
+}
 .table-show .el-form-item{
   margin-right: 0;
   margin-bottom: 0;
-  width: 40%;
+  width: 45%;
 }
 .tfoot{
   color: #909399;
-  line-height: 50px;
+  line-height: 40px;
   background-color: #fdfdfd;
   padding: 0 10px;
   font-size: 14px;
@@ -96,6 +95,20 @@ export default {
   border-right: 1px solid #eee;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+  background-color: #f6f6f6;
+}
+
+.f-header{
+  color: #909399;
+  line-height: 48px;
+  background-color: #fdfdfd;
+  padding: 0 10px;
+  font-size: 14px;
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   background-color: #f6f6f6;
 }
 </style>

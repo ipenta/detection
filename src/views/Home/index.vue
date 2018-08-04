@@ -54,14 +54,13 @@ export default {
   border-left: 1px solid #eee;
   border-right: 1px solid #eee;
 }
-.el-table td{
-  padding: 6px 0;
-}
 .el-table th{
   background-color: #f6f6f6;
 }
 div.cell{
   overflow: hidden;
+  vertical-align: middle;
+  text-align: center;
 }
 .textspan {
   color: #99a9bf;
@@ -80,5 +79,9 @@ div.cell{
   height: 40px;
   margin: 0 auto;
   background-color: #aaa;
+}
+.table-column-center-important {
+  text-align: center !important;
+  font-size: 14px;
 }
 </style>

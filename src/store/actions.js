@@ -1,7 +1,6 @@
 import * as entityService from '@/service/entity'
 import * as projectService from '@/service/project'
 import * as inspectionService from '@/service/inspection'
-import * as entryService from '@/service/entry'
 import * as principalService from '@/service/principal'
 import * as recordService from '@/service/record'
 
@@ -41,18 +40,6 @@ const actions = {
     state
   }, payload) {
     return inspectionService.search(payload)
-  },
-  addEntry({
-    commit,
-    state
-  }, payload) {
-    return entryService.add(payload)
-  },
-  getEntryByOrderId({
-    commit,
-    state
-  }, payload) {
-    return entryService.getEntryByOrderId(payload)
   },
   addPrincipal({
     commit,

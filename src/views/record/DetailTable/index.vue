@@ -1,11 +1,11 @@
 <template lang="html">
 <div class="detail-table">
-  <el-row type="flex" :gutter="24" style="margin-top:20px;margin-bottom:20px;">
+  <el-row type="flex" :gutter="24" style="margin-top:10px;margin-bottom:10px;">
     <el-col :span="4">
-      <el-button size="small" @click="handleCreate">新增检测项目</el-button>
+      <el-button size="medium" @click="handleCreateItem">新增检测项目</el-button>
     </el-col>
   </el-row>
-  <el-table :data="entries" style="width: 100%;">
+  <el-table :data="entries" style="width: 100%;" v-loading="tableloading">
     <el-table-column label="检测项名称" width="160">
       <template slot-scope="scope">
         <el-select
@@ -34,32 +34,33 @@
         <el-input size="small" v-model="scope.row.manufacturer"></el-input>
       </template>
     </el-table-column>
-    <el-table-column label="价格">
+    <el-table-column label="价格" width="80px">
       <template slot-scope="scope">
         <span v-show="scope.row.inspection.price !== undefined && scope.row.inspection.unit !== undefined">
         {{scope.row.inspection.price + '/' + scope.row.inspection.unit || ''}}
         </span>
       </template>
     </el-table-column>
-    <el-table-column label="检测数量">
+    <el-table-column label="检测数量" width="110px">
       <template slot-scope="scope">
         <el-input-number style="width:100px" :min='1' size="small" v-model="scope.row.number"></el-input-number>
       </template>
     </el-table-column>
-    <el-table-column prop="summary" label="金额小计">
+    <el-table-column prop="summary" label="小计" width="80px">
       <template slot-scope="scope">
         {{scope.row.number * scope.row.inspection.price || ''}}
       </template>
     </el-table-column>
-    <el-table-column prop="summary" label="操作" fixed="right">
+    <el-table-column prop="summary" label="操作" fixed="right" width="150px">
       <template slot-scope="scope">
-        <el-button size="mini" type="danger" @click="handleDelete(scope.$index)">删除</el-button>
+        <el-button size="mini" v-if="scope.row._id===''" type="primary" @click="handleSaveItem(scope.$index)">保存</el-button>
+        <el-button size="mini" v-if="scope.row._id!==''" type="primary" @click="handleSaveItem(scope.$index)">更新</el-button>
+        <el-button size="mini" type="danger" @click="handleRemoveItem(scope.$index)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
   <div class="tfoot">
     <span>总额：{{columnTotal}}</span>
-    <el-button size="mini" type="danger" style="float:right;margin:10px 10px 0 0;" @click="onSubmitEntries">确认</el-button>
   </div>
 </div>
 </template>
@@ -73,11 +74,13 @@ export default {
   data() {
     return {
       entries: [],
-      loading: false
+      loading: false,
+      tableloading: false
     }
   },
   mounted: function() {
     this.searchInspections()
+    this.loadEntries()
   },
   computed: {
     ...mapGetters(['inspections']),
@@ -87,14 +90,34 @@ export default {
   },
   methods: {
     ...mapActions(['searchInspections']),
-    handleCreate() {
+    handleCreateItem: function() {
       this.entries.push(new EntryVO({recordId: this.recordId}))
     },
-    handleDelete(index) {
-      this.entries.splice(index, 1)
+    handleRemoveItem: function(index) {
+      let _entry = this.entries[index]
+      if (_entry.recordId === '') {
+        this.entries.splice(index, 1)
+      } else {
+        entryService.remove(_entry).then(results => {
+          this.entries.splice(index, 1)
+        })
+      }
     },
-    onSubmitEntries() {
-      entryService.addBatch(this.entries.filter(item => delete item._id)).then(results => console.log(results))
+    handleSaveItem: function (index) {
+      this.tableloading = true
+      entryService.save(this.entries[index]).then(result => {
+        if (result.status === 'success') {
+          this.$message.success(result.msg)
+          this.tableloading = false
+        }
+      })
+    },
+    loadEntries: function() {
+      this.tableloading = true
+      entryService.getEntryByOrderId({recordId: this.recordId}).then(results => {
+        this.entries = results
+        this.tableloading = false
+      })
     }
   }
 }

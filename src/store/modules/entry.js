@@ -10,13 +10,17 @@ const getters = {
 }
 
 const actions = {
-  submitEntries: ({ commit, state }, payload) => {
-    return entryService.addBatch(payload.filter(item => delete item._id)).then(results => {
-      commit(types.SET_ENTRIES, results)
-    })
+  saveEntry({
+    commit,
+    state
+  }, payload) {
+    return entryService.save(payload)
   },
-  createEntry: ({ commit, state }, payload) => {
-    commit(types.SET_ENTRIES, payload)
+  getEntryByOrderId({
+    commit,
+    state
+  }, payload) {
+    return entryService.getEntryByOrderId(payload)
   }
 }
 

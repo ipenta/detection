@@ -1,7 +1,7 @@
 <template lang="html">
-  <el-form ref="form" :model="form" :rules="formRules" label-width="160px">
+  <el-form ref="form" :model="form" :rules="formRules" label-width="160px" style="padding-top:20px;border:1px solid #eee;">
     <el-form-item label="委托方案全称" prop="title" class="input">
-        <el-input v-model="form.title"></el-input>
+      <el-input v-model="form.title"></el-input>
     </el-form-item>
     <el-form-item label="所属工程" prop="project">
       <el-select
@@ -57,8 +57,8 @@
       <span>{{ form.principal.phonenum || '' }}</span>
     </el-form-item>
     <el-form-item>
-      <el-button size="mini" @click="onClose('form')">放弃</el-button>
-      <el-button type="primary" size="mini" @click="onSubmit('form','addRecord')">
+      <el-button size="middle" @click="onClose('form')">放弃</el-button>
+      <el-button type="primary" size="middle" @click="onSubmit('form','addRecord')">
         <span v-if="content===''">添加</span>
         <span v-if="content!==''">修改</span>
       </el-button>
