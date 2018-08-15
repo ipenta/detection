@@ -4,6 +4,7 @@
 export function httpResultProxy(resultPromise, VO = null) {
   return new Promise((resolve, reject) => {
     resultPromise.then(res => {
+      console.log(res)
       if (res && res.data) {
         let data = res.data
         if (data.data) {

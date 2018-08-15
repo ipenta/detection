@@ -2,9 +2,6 @@ import axios from 'axios'
 // import qs from 'qs'
 // import auth from './auth'
 import {
-  getBaseUrl
-} from '@/commons/utils'
-import {
   Message
 } from 'element-ui'
 
@@ -13,66 +10,46 @@ axios.defaults.timeout = 5000
 axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8'
 axios.defaults.headers['Accept'] = 'application/json'
 // axios.defaults.baseURL = 'http:// localhost:8008';
-axios.defaults.baseURL = getBaseUrl(window.location.href)
+axios.defaults.baseURL = 'http://127.0.0.1:9527/v1' // getBaseUrl(window.location.href)
+axios.defaults.headers.Authorization = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoieWl5ZXJuIiwiaWF0IjoxNTM0MDU5NzA2fQ.SWnxGhmWm5vS1AHTV5j5Q5XY9m0kD2dcUsADEQLPZj8'
 // axios.defaults.headers.common['authUid'] = auth.getUid()
 // axios.defaults.headers.common['authSid'] = auth.getSid()
 
-// POST传参序列化
-// axios.interceptors.request.use((config) => {
-//   if (config.method === 'post') {
-//     config.data = qs.stringify(config.data)
-//   }
-//   return config
-// }, (error) => {
-//   return Promise.reject(error)
-// })
-
-axios.interceptors.response.use(data => {
-  if (data.status && data.status === 200 && data.data.status === 'error') {
+axios.interceptors.response.use(response => {
+  if (response.status === 200 || response.status === 304) {
+    if (response.data && response.data.nModified === 1) {
+      Message.success({
+        message: '更新成功'
+      })
+    }
+    if (response.data && response.data.n === 1) {
+      Message.success({
+        message: '删除成功'
+      })
+    }
+    return response
+  } else if (response.status === 201) {
     Message.error({
-      message: data.data.msg
+      message: response.data.message
     })
-    return
+    return response
   }
-  // if (data.status && data.status === 200 && data.data.status === 'success') {
-  //   Message.success({
-  //     message: data.data.msg
-  //   })
-  //   return data
-  // }
-  return data
 }, err => {
-  // if (err.response.status === 504 || err.response.status === 404) {
-  Message.error({
-    message: '服务器被吃了⊙﹏⊙∥'
-  })
-  // } else if (err.response.status === 403) {
-  //   Message.error({
-  //     message: '权限不足,请联系管理员!'
-  //   })
-  // } else {
-  //   Message.error({
-  //     message: '未知错误!'
-  //   })
-  // }
+  if (err.response.status === 504 || err.response.status === 404) {
+    Message.error({
+      message: '没有找到数据'
+    })
+  } else if (err.response.status === 401) {
+    Message.error({
+      message: '访问未获得授权,请登录!'
+    })
+  } else {
+    Message.error({
+      message: '未知错误!'
+    })
+  }
   return Promise.resolve(err)
 })
-
-//  返回状态判断
-// axios.interceptors.response.use(response => {
-//   if (response.data && response.data.code) {
-//     if (response.data.code === '2001') {
-//       auth.logout()
-//     }
-//   }
-//   return response
-// }, error => {
-//   if (error.response) {
-//     // 全局ajax错误信息提示
-//     //  MessageBox({ type: 'error', message: error.response.data, title: '温馨提示'});
-//   }
-//   // return Promise.reject(error);
-// })
 
 export function fetch(url, config = {
   method: 'get'

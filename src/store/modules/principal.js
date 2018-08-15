@@ -1,29 +1,36 @@
-import * as principalService from '@/service/principal'
+import * as service from '@/service/principal'
 import * as types from '@/store/mutation-type'
 
 const state = {
-  principals: []
+  list: []
 }
 
 const getters = {
-  principals: state => state.principals
+  list: state => state.list
 }
 
 const actions = {
-  searchPrincipals: ({ commit, state }, payload) => {
-    return principalService.search(payload).then(results => {
+  search: ({ commit, state }, payload) => {
+    return service.search(payload).then(results => {
       commit(types.SET_PRINCIPALS, results)
     })
+  },
+  submit: ({ commit, state }, payload) => {
+    return (payload.id !== '') ? service.patch(payload) : service.create(payload)
+  },
+  remove: ({ commit, state }, payload) => {
+    return service.remove(payload)
   }
 }
 
 const mutations = {
-  [types.SET_PRINCIPALS]: (state, principals) => {
-    state.principals = principals
+  [types.SET_PRINCIPALS]: (state, list) => {
+    state.list = list
   }
 }
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

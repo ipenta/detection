@@ -1,7 +1,6 @@
 import * as entityService from '@/service/entity'
 import * as projectService from '@/service/project'
 import * as inspectionService from '@/service/inspection'
-import * as principalService from '@/service/principal'
 import * as recordService from '@/service/record'
 
 const actions = {
@@ -40,18 +39,6 @@ const actions = {
     state
   }, payload) {
     return inspectionService.search(payload)
-  },
-  addPrincipal({
-    commit,
-    state
-  }, payload) {
-    return principalService.add(payload)
-  },
-  searchPrincipal({
-    commit,
-    state
-  }, payload) {
-    return principalService.search(payload)
   },
   addRecord({
     commit,
