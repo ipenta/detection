@@ -13,29 +13,36 @@
     </el-col>
     <el-col :span="1"><div class="single"></div></el-col>
     <el-col :span="3">
-      <router-link :to="{ name: 'entity/form' }" :from="{ name: '/entity'}" class="el-button" style="width:100%;">添加</router-link>
+      <el-button @click="onCreateItem">添加</el-button>
+      <!-- <router-link :to="{ name: 'entity/form' }" :from="{ name: '/entity'}" class="el-button" style="width:100%;">添加</router-link> -->
     </el-col>
   </el-row>
   <div style="margin:0 12px;">
-    <el-table :data="entities" class="c-table">
-      <el-table-column label="单位类型" prop="type" width="160"></el-table-column>
+    <el-table :data="list" class="c-table">
       <el-table-column label="单位名称" prop="name"></el-table-column>
       <el-table-column label="操作" fixed="right" width="100">
         <template slot-scope="scope">
-          <el-button @click="onCheckDetail(scope.row)" type="text" size="small">查看</el-button>
+          <el-button @click="onRemoveItem(scope.row)" type="text" size="small">删除</el-button>
+          <el-button @click="onShowItem(scope.row)" type="text" size="small">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
   </div>
+  <el-dialog title="委托单" :visible.sync="dialogFormVisible" style="width:100%" v-if='dialogFormVisible'>
+    <EntityForm :content="content" @close="onClose" v-if='dialogFormVisible'></EntityForm>
+  </el-dialog>
 </div>
 </template>
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
+import EntityForm from './EntityForm'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      content: {},
+      dialogFormVisible: false,
       breadcrumb: [
         { label: '相关单位管理' },
         { label: '列表' }
@@ -44,24 +51,46 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['entities'])
+    ...mapGetters({
+      list: 'entity/list'
+    })
   },
   mounted: function() {
     this.search()
   },
   methods: {
-    ...mapActions(['search']),
+    ...mapActions({
+      search: 'entity/search',
+      remove: 'entity/remove'
+    }),
     onSearch: function () {
       if (this.searchValue !== '') {
         this.search({ name: this.searchValue })
       }
     },
-    onCheckDetail: row => {
-      console.log(row)
+    onCreateItem: function () {
+      this.dialogFormVisible = true
+      this.content = {}
+    },
+    onShowItem: function (row) {
+      this.dialogFormVisible = true
+      this.content = row
+      // this.queryDetail({ id: row._id })
+    },
+    onRemoveItem: function (row) {
+      const that = this
+      this.remove({id: row._id}).then(result => {
+        that.search()
+      })
+    },
+    onClose: function () {
+      this.dialogFormVisible = false
+      this.search()
     }
   },
   components: {
-    Breadcrumb
+    Breadcrumb,
+    EntityForm
   }
 }
 </script>

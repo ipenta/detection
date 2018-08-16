@@ -1,21 +1,8 @@
-import * as entityService from '@/service/entity'
 import * as projectService from '@/service/project'
 import * as inspectionService from '@/service/inspection'
 import * as recordService from '@/service/record'
 
 const actions = {
-  addEntity({
-    commit,
-    state
-  }, payload) {
-    return entityService.add(payload)
-  },
-  searchEntity({
-    commit,
-    state
-  }, payload) {
-    return entityService.search(payload)
-  },
   addProject({
     commit,
     state

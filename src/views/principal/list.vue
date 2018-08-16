@@ -13,7 +13,7 @@
     </el-col>
     <el-col :span="1"><div class="single"></div></el-col>
     <el-col :span="3">
-      <el-button @click="onCreate">添加</el-button>
+      <el-button @click="onCreateItem">添加</el-button>
       <!-- <router-link :to="{ name: 'principal/form' }" :from="{ name: '/principal'}" class="el-button" style="width:100%;">添加</router-link> -->
     </el-col>
   </el-row>
@@ -23,8 +23,8 @@
       <el-table-column label="委托人手机" prop="phonenum"></el-table-column>
       <el-table-column label="操作" fixed="right" width="100">
         <template slot-scope="scope">
-          <el-button @click="onRemove(scope.row)" type="text" size="small">删除</el-button>
-          <el-button @click="onShowDetail(scope.row)" type="text" size="small">查看</el-button>
+          <el-button @click="onRemoveItem(scope.row)" type="text" size="small">删除</el-button>
+          <el-button @click="onShowItem(scope.row)" type="text" size="small">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,18 +65,20 @@ export default {
       remove: 'principal/remove'
     }),
     onSearch: function () {
-      this.search({ name: this.searchValue })
+      if (this.searchValue !== '') {
+        this.search({ name: this.searchValue })
+      }
     },
-    onCreate: function () {
+    onCreateItem: function () {
       this.dialogFormVisible = true
       this.content = {}
     },
-    onShowDetail: function (row) {
+    onShowItem: function (row) {
       this.dialogFormVisible = true
       this.content = row
       // this.queryDetail({ id: row._id })
     },
-    onRemove: function (row) {
+    onRemoveItem: function (row) {
       const that = this
       this.remove({id: row._id}).then(result => {
         that.search()
