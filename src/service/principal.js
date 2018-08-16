@@ -13,6 +13,7 @@ export function patch(principal) {
 }
 
 export function search(principal) {
+  console.log(principal)
   return httpResultProxy(axios.get(API.SEARCH_PRINCIPAL, {params: principal}))
 }
 

@@ -6,10 +6,10 @@
       <span class="textspan">检测项目</span>
     </el-col>
     <el-col :span="10">
-      <el-input placeholder="请输入关键字过滤" v-model="principalItem" class="queryinput"></el-input>
+      <el-input placeholder="请输入关键字过滤" v-model="searchValue" class="queryinput"></el-input>
     </el-col>
     <el-col :span="3">
-      <el-button @click="onSearchInput" style="width:100%;">查询</el-button>
+      <el-button @click="onSearch" style="width:100%;">查询</el-button>
     </el-col>
     <el-col :span="1"><div class="single"></div></el-col>
     <el-col :span="3">
@@ -48,7 +48,7 @@ export default {
         { label: '委托人管理' },
         { label: '列表' }
       ],
-      principalItem: ''
+      searchValue: ''
     }
   },
   computed: {
@@ -64,8 +64,8 @@ export default {
       search: 'principal/search',
       remove: 'principal/remove'
     }),
-    onSearchInput: function () {
-      this.search({ name: this.principalItem })
+    onSearch: function () {
+      this.search({ name: this.searchValue })
     },
     onCreate: function () {
       this.dialogFormVisible = true

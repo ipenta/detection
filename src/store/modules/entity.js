@@ -10,7 +10,7 @@ const getters = {
 }
 
 const actions = {
-  searchEntities: ({ commit, state }, payload) => {
+  search: ({ commit, state }, payload) => {
     return entityService.search(payload).then(results => {
       commit(types.SET_ENTITIES, results)
     })

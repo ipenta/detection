@@ -17,6 +17,7 @@
     "axios": "^0.18.0",
     "element-ui": "^2.4.5",
     "install": "^0.12.1",
+    "joi": "^13.6.0",
     "lodash": "^4.17.10",
     "nedb-promise": "^2.0.1",
     "normalize.css": "^8.0.0",
