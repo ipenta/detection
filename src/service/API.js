@@ -3,8 +3,8 @@ const BaseUrl = ''
 export const ENTITY = BaseUrl + '/entity/'
 export const PRINCIPAL = BaseUrl + '/principal/'
 
-export const ADD_PROJECT = BaseUrl + '/project'
-export const SEARCH_PROJECT = BaseUrl + '/project/search'
+export const PROJECT = BaseUrl + '/project/'
+
 export const ADD_INSPECTION = BaseUrl + '/inspection'
 export const SEARCH_INSPECTION = BaseUrl + '/inspection/search'
 

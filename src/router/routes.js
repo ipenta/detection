@@ -5,12 +5,10 @@ import ProjectForm from '@/views/project/form'
 import ProjectList from '@/views/project/list'
 import InspectionForm from '@/views/inspection/form'
 import InspectionList from '@/views/inspection/list'
-import PrincipalForm from '@/views/principal/form'
 import PrincipalList from '@/views/principal/list'
 import OrderForm from '@/views/order/form'
 import OrderList from '@/views/order/list'
 import EntityList from '@/views/entity/list'
-import EntityForm from '@/views/entity/form'
 import EntryList from '@/views/entry/list'
 import EntryForm from '@/views/entry/form'
 
@@ -39,10 +37,6 @@ const routes = [{
     name: 'entity',
     component: EntityList
   }, {
-    path: 'entity/form',
-    name: 'entity/form',
-    component: EntityForm
-  }, {
     path: 'inspection',
     name: 'inspection',
     component: InspectionList
@@ -62,10 +56,6 @@ const routes = [{
     path: 'principal',
     name: 'principal',
     component: PrincipalList
-  }, {
-    path: 'principal/form',
-    name: 'principal/form',
-    component: PrincipalForm
   }, {
     path: 'order/:id',
     name: 'order',

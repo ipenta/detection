@@ -19,17 +19,21 @@
   <div style="margin:0 12px;">
     <el-table :data="projects" class="c-table">
       <el-table-column label="项目名称" prop="name" width="160"></el-table-column>
-      <el-table-column label="建设单位" prop="entities[0].name"></el-table-column>
-      <el-table-column label="监理单位" prop="entities[1].name"></el-table-column>
-      <el-table-column label="施工单位" prop="entities[2].name"></el-table-column>
-      <el-table-column label="设计单位" prop="entities[3].name"></el-table-column>
+      <el-table-column label="建设单位" prop="owner.name"></el-table-column>
+      <el-table-column label="监理单位" prop="supervisor.name"></el-table-column>
+      <el-table-column label="施工单位" prop="builder.name"></el-table-column>
+      <el-table-column label="设计单位" prop="designer.name"></el-table-column>
       <el-table-column label="操作" fixed="right" width="100">
         <template slot-scope="scope">
-          <el-button @click="onCheckDetail(scope.row)" type="text" size="small">查看</el-button>
+          <el-button @click="onRemoveItem(scope.row)" type="text" size="small">删除</el-button>
+          <el-button @click="onShowItem(scope.row)" type="text" size="small">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
   </div>
+  <el-dialog title="委托单" :visible.sync="dialogFormVisible" style="width:100%" v-if='dialogFormVisible'>
+    <PrincipalForm :content="content" @close="onClose" v-if='dialogFormVisible'></PrincipalForm>
+  </el-dialog>
 </div>
 </template>
 
@@ -43,19 +47,32 @@ export default {
         { label: '工程管理' },
         { label: '列表' }
       ],
-      projectItem: ''
+      projectItem: '',
+      dialogFormVisible: false
     }
   },
-  computed: {
-    ...mapGetters(['projects'])
-  },
   mounted: function () {
-    this.searchProjects()
+    this.searchProject()
+  },
+  computed: {
+    ...mapGetters({projects: 'project/projects'})
   },
   methods: {
-    ...mapActions(['searchProjects']),
+    ...mapActions({
+      searchProject: 'project/searchProject',
+      removeProject: 'project/removeProject'
+    }),
     onSearchInput: function () {
-      this.searchProjects({ name: this.projectItem })
+      this.searchProject({ name: this.projectItem })
+    },
+    onShowItem: function (row) {
+      this.$router.push({ name: 'project/form', query: {id: row._id} })
+    },
+    onRemoveItem: function (row) {
+      const that = this
+      this.removeProject({id: row._id}).then(result => {
+        that.searchProject()
+      })
     }
   },
   components: {

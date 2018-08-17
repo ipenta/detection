@@ -5,28 +5,29 @@
   <el-form-item label="工程名称" prop="name" class="input">
     <el-input v-model="form.name"></el-input>
   </el-form-item>
-  <el-form-item label="建设单位" prop="entities[0]" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
+  <el-form-item label="建设单位" prop="owner">
+    {{form.owner}}
     <el-select
-      v-model="form.entities[0]"
+      v-model="form.owner"
       filterable
       remote
       reserve-keyword
-      value-key="name"
+      value-key="_id"
       placeholder="请输入关键词"
       :remote-method="onSearchEntity('owner')"
       :loading="loading">
       <el-option
-        v-for="item in projects.owner"
-        :key="item.name"
+        v-for="item in owners"
+        :key="item._id"
         :label="item.name"
         :value="item">
       </el-option>
     </el-select>
-    <router-link :to="{ name: 'entity/form' }" class="el-button el-button--primary">如果搜索不到，请点击创建</router-link>
   </el-form-item>
-  <el-form-item label="监理单位" prop="entities[1]" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
+  <el-form-item label="监理单位" prop="supervisor" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
+    {{form.supervisor}}
     <el-select
-      v-model="form.entities[1]"
+      v-model="form.supervisor"
       filterable
       remote
       reserve-keyword
@@ -35,16 +36,16 @@
       :remote-method="onSearchEntity('supervisor')"
       :loading="loading">
       <el-option
-        v-for="item in projects.supervisor"
-        :key="item.name"
+        v-for="item in supervisors"
+        :key="item._id"
         :label="item.name"
         :value="item">
       </el-option>
     </el-select>
   </el-form-item>
-  <el-form-item label="施工单位"  prop="entities[2]" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
+  <el-form-item label="施工单位"  prop="builder" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
     <el-select
-      v-model="form.entities[2]"
+      v-model="form.builder"
       filterable
       remote
       reserve-keyword
@@ -53,16 +54,16 @@
       :remote-method="onSearchEntity('builder')"
       :loading="loading">
       <el-option
-        v-for="item in projects.builder"
-        :key="item.name"
+        v-for="item in builders"
+        :key="item._id"
         :label="item.name"
         :value="item">
       </el-option>
     </el-select>
   </el-form-item>
-  <el-form-item label="设计单位" prop="entities[3]" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
+  <el-form-item label="设计单位" prop="designer" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
     <el-select
-      v-model="form.entities[3]"
+      v-model="form.designer"
       filterable
       remote
       reserve-keyword
@@ -71,45 +72,26 @@
       :remote-method="onSearchEntity('designer')"
       :loading="loading">
       <el-option
-        v-for="item in projects.designer"
-        :key="item.name"
+        v-for="item in designers"
+        :key="item._id"
         :label="item.name"
         :value="item">
       </el-option>
     </el-select>
   </el-form-item>
   <el-form-item>
-    <router-link to="/record" class="el-button">放弃</router-link>
+    <router-link to="/project" class="el-button">取消</router-link>
     <el-button type="primary" @click="onSubmit('form')">确 定</el-button>
   </el-form-item>
+  {{form}}
 </el-form>
-<el-dialog title="单位设定" :visible.sync="dialogFormVisible" top="0">
-  <el-form ref="entityForm" :model="entity" :rules="entityFormRules" label-width="30%">
-    <el-form-item label="单位类型" prop="type">
-      <el-select v-model="entity.type" filterable placeholder="请点击下拉框选取">
-        <el-option
-          v-for="item in entities"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="单位名称" prop="name">
-      <el-input v-model="entity.name"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button @click="dialogFormVisible = false">放弃</el-button>
-      <el-button type="primary" @click="onEntitySubmit">确 定</el-button>
-    </el-form-item>
-  </el-form>
-</el-dialog>
 </div>
 </template>
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
-import EntityVO from '@/service/model/EntityVO'
+import { mapActions, mapGetters } from 'vuex'
+import * as projectService from '@/service/project'
 export default {
   data() {
     return {
@@ -117,83 +99,57 @@ export default {
         { label: '工程管理' },
         { label: '添加' }
       ],
+      loading: false,
       form: {
         name: '',
-        entities: []
-      },
-      loading: false,
-      projects: {
-        owner: '',
-        builder: '',
-        supervisor: '',
-        designer: ''
+        owner: {},
+        builder: {},
+        supervisor: {},
+        designer: {}
       },
       dialogFormVisible: false,
       formLabelWidth: '120px',
-      entity: new EntityVO(),
-      entities: [{
-        value: 'owner',
-        label: '建设单位'
-      }, {
-        value: 'designer',
-        label: '设计单位'
-      }, {
-        value: 'builder',
-        label: '施工单位'
-      }, {
-        value: 'supervisor',
-        label: '监理单位'
-      }],
       formRules: {
         name: [
           { required: true, message: '必须：请务必填写工程名', trigger: 'blur' },
           { min: 3, message: '长度不能少于 3 个字符', trigger: 'blur' }
         ]
-      },
-      entityFormRules: {
-        type: [
-          { required: true, message: '必须：请务必选择单位类型', trigger: 'blur' }
-        ],
-        name: [
-          { required: true, message: '必须：请务必填写单位名称', trigger: 'blur' },
-          { min: 3, message: '长度不能少于 3 个字符', trigger: 'blur' }
-        ]
       }
     }
   },
+  mounted: function () {
+    const that = this
+    projectService.initFormData({id: this.$route.query.id}).then(data => {
+      that.form = data
+      console.log(that.form)
+    })
+  },
+  computed: {
+    ...mapGetters({
+      owners: 'project/owners',
+      designers: 'project/designers',
+      builders: 'project/builders',
+      supervisors: 'project/supervisors'
+    })
+  },
   methods: {
-    onEntitySubmit() {
-      this.$refs['entityForm'].validate(valid => {
-        if (valid) {
-          this.$store.dispatch('addEntity', this.entity).then(context => {
-            if (context.status === 'success') {
-              this.$refs['entityForm'].resetFields()
-              this.dialogFormVisible = false
-            }
-          })
-        }
-      })
-    },
+    ...mapActions({
+      searchEntity: 'project/searchEntity',
+      createProject: 'project/createProject'
+    }),
     onSearchEntity(type) {
-      let that = this
-      return function(owner) {
-        if (type !== '') {
-          this.$store.dispatch('searchEntity', {
-            type: type,
-            name: owner
-          }).then(context => {
-            that.projects[type] = context
-          })
+      const that = this
+      return function (entityName) {
+        if (entityName !== '') {
+          that.searchEntity({ type: type, name: entityName })
         }
       }
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch('addProject', this.form).then(context => {
-            if (context.status === 'success') {
-              this.$refs[formName].resetFields()
-            }
+          this.createProject(this.form).then(result => {
+            this.$router.push('/project')
           })
         }
       })
