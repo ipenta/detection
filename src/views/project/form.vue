@@ -83,9 +83,6 @@
   </el-form-item>
   <!-- http://localhost:8080/#/project/form?id=5b75281dac36520091667355 -->
 </el-form>
-{{form}}
-<hr>
-{{temp}}
 </div>
 </template>
 
@@ -143,7 +140,7 @@ export default {
   methods: {
     ...mapActions({
       searchEntity: 'project/searchEntity',
-      saveProject: 'project/saveProject',
+      submit: 'project/submit',
       initFormData: 'project/initFormData'
     }),
     onSearchEntity(type) {
@@ -161,7 +158,7 @@ export default {
       }
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.saveProject(this.form).then(result => {
+          this.submit(this.form).then(result => {
             this.$router.push('/project')
           })
         }

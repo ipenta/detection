@@ -3,15 +3,14 @@ import { httpResultProxy } from '@/utils/proxy'
 // import EntityVO from './model/EntityVO'
 import axios from '@/commons/axios'
 
-export function create(project) {
-  delete project._id
-  return httpResultProxy(axios.post(API.PROJECT, project))
-}
-
-export function patch(project) {
+export function save(project) {
   const id = project._id
   delete project._id
-  return httpResultProxy(axios.patch(API.PROJECT + id, project))
+  if (id !== '') {
+    return httpResultProxy(axios.patch(API.PROJECT + id, project))
+  } else {
+    return httpResultProxy(axios.post(API.PROJECT, project))
+  }
 }
 
 export function search(project) {

@@ -2,18 +2,17 @@ import * as API from './API'
 import { httpResultProxy } from '@/utils/proxy'
 import axios from '@/commons/axios'
 
-export function create(principal) {
-  return httpResultProxy(axios.post(API.PRINCIPAL, principal))
-}
-
-export function patch(principal) {
-  const id = principal.id
-  delete principal.id
-  return httpResultProxy(axios.patch(API.PRINCIPAL + id, principal))
+export function save(principal) {
+  const id = principal._id
+  delete principal._id
+  if (id !== '') {
+    return httpResultProxy(axios.patch(API.PRINCIPAL + id, principal))
+  } else {
+    return httpResultProxy(axios.post(API.PRINCIPAL, principal))
+  }
 }
 
 export function search(principal) {
-  console.log(principal)
   return httpResultProxy(axios.get(API.PRINCIPAL, {params: principal}))
 }
 

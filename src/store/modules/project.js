@@ -43,8 +43,8 @@ const actions = {
       }
     })
   },
-  saveProject: ({ commit, state }, payload) => {
-    return (payload.id !== '') ? projectService.patch(payload) : projectService.create(payload)
+  submit: ({ commit, state }, payload) => {
+    return projectService.save(payload)
   },
   removeProject: ({ commit, state }, payload) => {
     return projectService.remove(payload)

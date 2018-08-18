@@ -16,7 +16,7 @@ const actions = {
     })
   },
   submit: ({ commit, state }, payload) => {
-    return (payload.id !== '') ? service.patch(payload) : service.create(payload)
+    return service.save(payload)
   },
   remove: ({ commit, state }, payload) => {
     return service.remove(payload)
