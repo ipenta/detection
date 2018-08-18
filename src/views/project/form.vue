@@ -5,17 +5,16 @@
   <el-form-item label="工程名称" prop="name" class="input">
     <el-input v-model="form.name"></el-input>
   </el-form-item>
-  <el-form-item label="建设单位" prop="owner">
-    {{form.owner}}
+  <el-form-item label="建设单位" prop="owner" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
     <el-select
       v-model="form.owner"
       filterable
       remote
       reserve-keyword
       value-key="_id"
-      placeholder="请输入关键词"
       :remote-method="onSearchEntity('owner')"
       :loading="loading">
+      <el-option :value="form.owner" :label="form.owner.name" v-if="form.owner !== '' && owners.length === 0 "></el-option>
       <el-option
         v-for="item in owners"
         :key="item._id"
@@ -25,16 +24,15 @@
     </el-select>
   </el-form-item>
   <el-form-item label="监理单位" prop="supervisor" :rules="{ required: true, message: '必须：请务必输入关键字获取单位', trigger: 'blur' }">
-    {{form.supervisor}}
     <el-select
       v-model="form.supervisor"
       filterable
       remote
       reserve-keyword
       value-key="name"
-      placeholder="请输入关键词"
       :remote-method="onSearchEntity('supervisor')"
       :loading="loading">
+      <el-option :value="form.supervisor" :label="form.supervisor.name" v-if="form.supervisor !== '' && supervisors.length === 0"></el-option>
       <el-option
         v-for="item in supervisors"
         :key="item._id"
@@ -50,9 +48,9 @@
       remote
       reserve-keyword
       value-key="name"
-      placeholder="请输入关键词"
       :remote-method="onSearchEntity('builder')"
       :loading="loading">
+      <el-option :value="form.builder" :label="form.builder.name" v-if="form.builder !== '' && builders.length === 0"></el-option>
       <el-option
         v-for="item in builders"
         :key="item._id"
@@ -68,9 +66,9 @@
       remote
       reserve-keyword
       value-key="name"
-      placeholder="请输入关键词"
       :remote-method="onSearchEntity('designer')"
       :loading="loading">
+      <el-option :value="form.designer" :label="form.designer.name" v-if="form.designer !== '' && designers.length === 0"></el-option>
       <el-option
         v-for="item in designers"
         :key="item._id"
@@ -83,14 +81,19 @@
     <router-link to="/project" class="el-button">取消</router-link>
     <el-button type="primary" @click="onSubmit('form')">确 定</el-button>
   </el-form-item>
-  {{form}}
+  <!-- http://localhost:8080/#/project/form?id=5b75281dac36520091667355 -->
 </el-form>
+{{form}}
+<hr>
+{{temp}}
 </div>
 </template>
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
 import { mapActions, mapGetters } from 'vuex'
+import isEqual from 'lodash.isequal'
+import cloneDeep from 'lodash.clonedeep'
 import * as projectService from '@/service/project'
 export default {
   data() {
@@ -101,12 +104,14 @@ export default {
       ],
       loading: false,
       form: {
+        _id: '',
         name: '',
-        owner: {},
-        builder: {},
-        supervisor: {},
-        designer: {}
+        owner: '',
+        builder: '',
+        supervisor: '',
+        designer: ''
       },
+      temp: {},
       dialogFormVisible: false,
       formLabelWidth: '120px',
       formRules: {
@@ -118,24 +123,28 @@ export default {
     }
   },
   mounted: function () {
-    const that = this
-    projectService.initFormData({id: this.$route.query.id}).then(data => {
-      that.form = data
-      console.log(that.form)
-    })
+    if (this.$route.query.id) {
+      const that = this
+      projectService.initFormData({id: this.$route.query.id}).then(data => {
+        that.form = data
+        that.temp = cloneDeep(data)
+      })
+    }
   },
   computed: {
     ...mapGetters({
       owners: 'project/owners',
       designers: 'project/designers',
       builders: 'project/builders',
-      supervisors: 'project/supervisors'
+      supervisors: 'project/supervisors',
+      project: 'project/project'
     })
   },
   methods: {
     ...mapActions({
       searchEntity: 'project/searchEntity',
-      createProject: 'project/createProject'
+      saveProject: 'project/saveProject',
+      initFormData: 'project/initFormData'
     }),
     onSearchEntity(type) {
       const that = this
@@ -146,9 +155,13 @@ export default {
       }
     },
     onSubmit(formName) {
+      if (isEqual(this.form, this.temp)) {
+        this.$message('表单未做修改')
+        return
+      }
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.createProject(this.form).then(result => {
+          this.saveProject(this.form).then(result => {
             this.$router.push('/project')
           })
         }

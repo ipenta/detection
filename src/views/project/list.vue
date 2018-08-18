@@ -31,9 +31,9 @@
       </el-table-column>
     </el-table>
   </div>
-  <el-dialog title="委托单" :visible.sync="dialogFormVisible" style="width:100%" v-if='dialogFormVisible'>
-    <PrincipalForm :content="content" @close="onClose" v-if='dialogFormVisible'></PrincipalForm>
-  </el-dialog>
+  <!-- <el-dialog title="委托单" :visible.sync="dialogFormVisible" style="width:100%" v-if='dialogFormVisible'>
+    <ProjectForm :content="content" @close="onClose" v-if='dialogFormVisible'></ProjectForm>
+  </el-dialog> -->
 </div>
 </template>
 
@@ -47,8 +47,7 @@ export default {
         { label: '工程管理' },
         { label: '列表' }
       ],
-      projectItem: '',
-      dialogFormVisible: false
+      projectItem: ''
     }
   },
   mounted: function () {
@@ -66,6 +65,7 @@ export default {
       this.searchProject({ name: this.projectItem })
     },
     onShowItem: function (row) {
+      // this.dialogFormVisible = true
       this.$router.push({ name: 'project/form', query: {id: row._id} })
     },
     onRemoveItem: function (row) {
@@ -73,6 +73,10 @@ export default {
       this.removeProject({id: row._id}).then(result => {
         that.searchProject()
       })
+    },
+    onClose: function () {
+      this.dialogFormVisible = false
+      this.searchProject()
     }
   },
   components: {

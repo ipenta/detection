@@ -4,7 +4,14 @@ import { httpResultProxy } from '@/utils/proxy'
 import axios from '@/commons/axios'
 
 export function create(project) {
+  delete project._id
   return httpResultProxy(axios.post(API.PROJECT, project))
+}
+
+export function patch(project) {
+  const id = project._id
+  delete project._id
+  return httpResultProxy(axios.patch(API.PROJECT + id, project))
 }
 
 export function search(project) {
