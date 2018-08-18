@@ -1,4 +1,4 @@
-import * as inspectionService from '@/service/inspection'
+import * as service from '@/service/inspection'
 import * as types from '@/store/mutation-type'
 
 const state = {
@@ -10,10 +10,16 @@ const getters = {
 }
 
 const actions = {
-  searchInspections: ({ commit, state }, payload) => {
-    return inspectionService.search(payload).then(results => {
+  search: ({ commit, state }, payload) => {
+    return service.search(payload).then(results => {
       commit(types.SET_INSPECTIONS, results)
     })
+  },
+  submit: ({ commit, state }, payload) => {
+    return service.save(payload)
+  },
+  remove: ({ commit, state }, payload) => {
+    return service.remove(payload)
   }
 }
 
@@ -24,6 +30,7 @@ const mutations = {
 }
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,
