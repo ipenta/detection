@@ -1,33 +1,39 @@
-import * as recordService from '@/service/record'
+import * as service from '@/service/record'
 import * as types from '@/store/mutation-type'
 import RecordVO from '@/service/model/RecordVO'
 
 const state = {
-  records: [],
+  list: [],
   record: new RecordVO()
 }
 
 const getters = {
-  records: state => state.records,
+  list: state => state.list,
   record: state => state.record
 }
 
 const actions = {
-  searchRecords: ({ commit, state }, payload) => {
-    return recordService.find(payload).then(results => {
+  search: ({ commit, state }, payload) => {
+    return service.search(payload).then(results => {
       commit(types.SET_RECORDS, results)
     })
   },
-  getRecordDetail: ({ commit, state }, payload) => {
-    return recordService.findOne(payload).then(result => {
+  detail: ({ commit, state }, payload) => {
+    return service.findById({id: payload.id}).then(result => {
       commit(types.SET_RECORD, result)
     })
+  },
+  submit: ({ commit, state }, payload) => {
+    return service.save(payload)
+  },
+  remove: ({ commit, state }, payload) => {
+    return service.remove(payload)
   }
 }
 
 const mutations = {
-  [types.SET_RECORDS]: (state, records) => {
-    state.records = records
+  [types.SET_RECORDS]: (state, list) => {
+    state.list = list
   },
   [types.SET_RECORD]: (state, record) => {
     state.record = record
@@ -35,6 +41,7 @@ const mutations = {
 }
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

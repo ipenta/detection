@@ -3,17 +3,23 @@ import { httpResultProxy } from '@/utils/proxy'
 import axios from '@/commons/axios'
 
 export function save(entry) {
-  return httpResultProxy(axios.post(API.SAVE_ENTRY, entry))
+  const id = entry._id
+  delete entry._id
+  if (id === '' || id === undefined) {
+    return httpResultProxy(axios.post(API.ENTRY, entry))
+  } else {
+    return httpResultProxy(axios.patch(API.ENTRY + id, entry))
+  }
 }
 
 export function getEntryByOrderId(entry) {
-  return httpResultProxy(axios.get(API.GET_ENTRY_BY_ORDERID, {params: entry}))
+  return httpResultProxy(axios.get(API.ENTRY, {params: entry}))
 }
 
-export function search(query) {
-  return httpResultProxy(axios.get(API.GET_ENTRIES, {params: query}))
+export function search(entry) {
+  return httpResultProxy(axios.get(API.ENTRY, {params: entry}))
 }
 
-export function remove(query) {
-  return httpResultProxy(axios.post(API.REMOVE_ENTRY, query))
+export function remove(entry) {
+  return httpResultProxy(axios.post(API.ENTRY, entry))
 }

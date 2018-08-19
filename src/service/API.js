@@ -8,11 +8,6 @@ export const INSPECTION = BaseUrl + '/inspection/'
 export const GET_ENTRY_BY_ORDERID = BaseUrl + '/entry'
 export const FIND_USER = BaseUrl + '/user'
 
-export const SAVE_ENTRY = BaseUrl + '/entry'
-export const ADD_ENTRIES = BaseUrl + '/entries'
-export const GET_ENTRIES = BaseUrl + '/entries'
-export const REMOVE_ENTRY = BaseUrl + '/entry/remove'
+export const ENTRY = BaseUrl + '/entry/'
 
-export const ADD_RECORD = BaseUrl + '/record'
-export const QUERY_RECORDS = BaseUrl + '/records'
-export const QUERY_RECORD = BaseUrl + '/record/query'
+export const RECORD = BaseUrl + '/record/'

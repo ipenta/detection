@@ -24,6 +24,9 @@ const actions = {
       commit(types.SET_PROJECTS, results)
     })
   },
+  searchProjectForRecord: ({ commit, state }, payload) => {
+    return projectService.search(payload)
+  },
   searchEntity: ({ commit, state }, payload) => {
     return entityService.search(payload).then(results => {
       switch (payload.type) {

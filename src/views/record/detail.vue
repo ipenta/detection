@@ -7,10 +7,10 @@
         <el-form-item label="委托方案">
           <span>{{ record.title }}</span>
         </el-form-item>
-       <el-form-item label="所属工程">
+        <el-form-item label="所属工程">
           <span>{{ record.project.name }}</span>
         </el-form-item>
-        <el-form-item label="委托单位">
+       <el-form-item label="委托单位">
           <span>{{ record.entity.name }}</span>
         </el-form-item>
         <el-form-item label="委托人">
@@ -45,7 +45,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['inspections', 'record']),
+    ...mapGetters({
+      inspection: 'inspection/inspections',
+      record: 'record/record'
+    }),
     recordId() {
       return this.$route.params.id
     },
@@ -54,10 +57,13 @@ export default {
     }
   },
   mounted: function() {
-    this.getRecordDetail({id: this.recordId})
+    this.getRecordDetail({id: this.$route.params.id})
   },
   methods: {
-    ...mapActions(['getRecordDetail']),
+    ...mapActions({
+      getRecordDetail: 'record/detail',
+      getEntryItem: 'entry/list'
+    }),
     editRecordDetail() {
       this.showConext = false
     },

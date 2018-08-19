@@ -90,13 +90,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['records', 'record', 'id'])
+    ...mapGetters({
+      records: 'record/list'
+    })
   },
   mounted: function () {
-    this.searchRecords()
+    this.search()
   },
   methods: {
-    ...mapActions(['searchRecords']),
+    ...mapActions({
+      search: 'record/search'
+    }),
     formRecord(row) {
       this.content = row
       this.dialogFormVisible = true
@@ -111,11 +115,11 @@ export default {
     },
     onClean() {
       this.dialogFormVisible = false
-      this.searchRecords()
+      this.search()
     },
     editRecord(row) {
       if (row._id !== '') {
-        this.$router.push({path: '/record/detail/' + row._id})
+        this.$router.push({path: '/record/' + row._id})
       }
     }
   },

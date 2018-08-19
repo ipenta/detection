@@ -51,6 +51,7 @@
         {{scope.row.number * scope.row.inspection.price || ''}}
       </template>
     </el-table-column>
+
     <el-table-column prop="summary" label="操作" fixed="right" width="150px">
       <template slot-scope="scope">
         <el-button size="mini" v-if="scope.row._id===''" type="primary" @click="handleSaveItem(scope.$index)">保存</el-button>
@@ -59,6 +60,7 @@
       </template>
     </el-table-column>
   </el-table>
+  {{entries}}
   <div class="tfoot">
     <span>总额：{{columnTotal}}</span>
   </div>
@@ -83,13 +85,17 @@ export default {
     this.loadEntries()
   },
   computed: {
-    ...mapGetters(['inspections']),
+    ...mapGetters({
+      inspections: 'inspection/inspections'
+    }),
     columnTotal() {
       return this.entries.map(row => row.number * row.inspection.price).reduce((acc, cur) => (cur + acc), 0) || ''
     }
   },
   methods: {
-    ...mapActions(['searchInspections']),
+    ...mapActions({
+      searchInspections: 'inspection/search'
+    }),
     handleCreateItem: function() {
       this.entries.push(new EntryVO({recordId: this.recordId}))
     },

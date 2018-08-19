@@ -63,10 +63,12 @@
         <span v-if="content!==''">修改</span>
       </el-button>
     </el-form-item>
+    {{form}}
   </el-form>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import { EntityMap } from '@/utils/map'
 export default {
   props: ['content'],
@@ -74,15 +76,13 @@ export default {
     return {
       form: {
         _id: this.content._id || '',
-        uid: this.content.uid || '',
+        uid: this.content.uid || '1',
         title: this.content.title || '',
         project: this.content.project || '',
         entity: this.content.entity || {},
         principal: this.content.principal || ''
       },
-      principals: [],
       principal: '',
-      projects: [],
       loading: false,
       record: '',
       formRules: {
@@ -103,63 +103,56 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      projects: 'project/projects',
+      principals: 'principal/list'
+    }),
     entities: function() {
-      let entities = []
-      let _project = this.form.project
-      let _data = this.content
-      if (_project !== '' && Array.isArray(_project.entities)) {
-        _project.entities.forEach(item => {
+      const entities = []
+      const entitiesName = ['owner', 'builder', 'supervisor', 'designer']
+      const _project = this.form.project
+      if (_project !== '') {
+        entitiesName.forEach(function (item) {
+          const entity = _project[item]
           entities.push({
-            entity: item,
-            key: item.name,
-            label: EntityMap[item.type] + ' - ' + item.name
+            entity: entity,
+            key: item,
+            label: EntityMap[item] + ' - ' + entity.name
           })
         })
-        if (this.content.entity) {
-          let temp = entities[0]
-          entities.map((v, i) => {
-            if (v.key === _data.entity.name) {
-              entities[0] = entities[i]
-              entities[i] = temp
-            }
-          })
-        }
       }
       return entities
     }
   },
   methods: {
+    ...mapActions({
+      searchProject: 'project/searchProject',
+      searchPrincipal: 'principal/search',
+      submit: 'record/submit'
+    }),
     onSearchProject(name) {
-      let that = this
       if (name !== '') {
-        this.$store.dispatch('searchProject', {
-          name: name
-        }).then(context => {
-          that.projects = context
-        })
+        this.searchProject({name: name})
+        // this.$store.dispatch('searchProject', {
+        //   name: name
+        // }).then(context => {
+        //   that.projects = context
+        // })
       }
     },
     onRecordSubmit() {
       this.form.project = this.project
     },
     onSearchPrincipal(name) {
-      let that = this
       if (name !== '') {
-        this.$store.dispatch('searchPrincipal', {
-          name: name
-        }).then(context => {
-          that.principals = context
-        })
+        this.searchPrincipal({name: name})
       }
     },
     onSubmit(formName, action) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch(action, this.form).then(msg => {
-            if (msg.status === 'success') {
-              this.$refs[formName].resetFields()
-              this.$emit('clean')
-            }
+          this.submit(this.form).then(result => {
+            this.$emit('clean')
           })
         }
       })

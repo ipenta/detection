@@ -63,19 +63,18 @@ export default {
           message: '请输入材料、项目名称',
           trigger: 'blur'
         }],
-        price: [
-          { required: true, message: '审核数量不能为空', trigger: 'blur' },
-          {
-            validator: (rule, value, callback) => {
-              if (/^[1-9]\d*$/.test(value) === false) {
-                callback(new Error('请输入一个整数'))
-              } else {
-                callback()
-              }
-            },
-            trigger: 'change'
-          }
-        ],
+        price: [{
+          required: true, message: '审核数量不能为空', trigger: 'blur'
+        }, {
+          validator: (rule, value, callback) => {
+            if (/^[1-9]\d*$/.test(value) === false) {
+              callback(new Error('请输入一个整数'))
+            } else {
+              callback()
+            }
+          },
+          trigger: 'change'
+        }],
         unit: [{
           required: true,
           message: '请输入计量单位',
