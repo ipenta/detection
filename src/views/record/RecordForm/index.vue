@@ -63,7 +63,6 @@
         <span v-if="content!==''">修改</span>
       </el-button>
     </el-form-item>
-    {{form}}
   </el-form>
 </template>
 
@@ -133,11 +132,6 @@ export default {
     onSearchProject(name) {
       if (name !== '') {
         this.searchProject({name: name})
-        // this.$store.dispatch('searchProject', {
-        //   name: name
-        // }).then(context => {
-        //   that.projects = context
-        // })
       }
     },
     onRecordSubmit() {

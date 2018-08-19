@@ -60,7 +60,6 @@
       </template>
     </el-table-column>
   </el-table>
-  {{entries}}
   <div class="tfoot">
     <span>总额：{{columnTotal}}</span>
   </div>
