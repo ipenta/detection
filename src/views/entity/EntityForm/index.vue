@@ -16,8 +16,8 @@ export default {
   props: ['content'],
   data() {
     return {
-      formid: this.content._id || '',
       form: {
+        _id: this.content._id || '',
         name: this.content.name || ''
       },
       formRules: {
@@ -34,7 +34,6 @@ export default {
     onSubmit: function (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.form.id = this.formid
           this.submit(this.form).then(response => {
             this.$refs[formName].resetFields()
             this.$emit('close')

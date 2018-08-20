@@ -10,7 +10,6 @@
       <el-button @click="onClose('form')">取 消</el-button>
       <el-button type="primary" @click="onSubmit('form')">确 定</el-button>
     </el-form-item>
-    {{formid}}
   </el-form>
 </template>
 
@@ -30,8 +29,8 @@ export default {
       }
     }
     return {
-      formid: this.content._id || '',
       form: {
+        _id: this.content._id || '',
         name: this.content.name || '',
         phonenum: this.content.phonenum || ''
       },
@@ -58,7 +57,7 @@ export default {
     onSubmit: function (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.form.id = this.formid
+          console.log(this.form)
           this.submit(this.form).then(response => {
             this.$refs[formName].resetFields()
             this.$emit('close')

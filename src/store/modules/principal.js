@@ -1,4 +1,4 @@
-import * as service from '@/service/principal'
+import service from '@/service/principal'
 import * as types from '@/store/mutation-type'
 
 const state = {
@@ -16,6 +16,7 @@ const actions = {
     })
   },
   submit: ({ commit, state }, payload) => {
+    console.log(payload)
     return service.save(payload)
   },
   remove: ({ commit, state }, payload) => {

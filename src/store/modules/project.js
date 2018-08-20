@@ -1,5 +1,5 @@
 import * as projectService from '@/service/project'
-import * as entityService from '@/service/entity'
+import entityService from '@/service/entity'
 import * as types from '@/store/mutation-type'
 
 const state = {
