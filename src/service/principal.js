@@ -5,6 +5,4 @@ const ExtendService = {
 
 }
 
-Object.assign({}, DefaultService.create({url: API.PRINCIPAL}), ExtendService)
-
-export default ExtendService
+export default Object.assign({}, DefaultService.create({url: API.PRINCIPAL}), ExtendService)
