@@ -1,4 +1,4 @@
-import * as entryService from '@/service/entry'
+import entryService from '@/service/entry'
 import * as types from '@/store/mutation-type'
 
 const state = {

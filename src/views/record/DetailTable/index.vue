@@ -69,7 +69,7 @@
 <script>
 import EntryVO from '@/service/model/EntryVO'
 import { mapActions, mapGetters } from 'vuex'
-import * as entryService from '@/service/entry'
+import entryService from '@/service/entry'
 export default {
   props: ['recordId'],
   data() {

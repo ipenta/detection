@@ -5,6 +5,6 @@ const ExtendService = {
 
 }
 
-Object.assign(ExtendService, DefaultService.create({url: API.PRINCIPAL}))
+Object.assign({}, DefaultService.create({url: API.PRINCIPAL}), ExtendService)
 
 export default ExtendService
