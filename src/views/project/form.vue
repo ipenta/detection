@@ -91,7 +91,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import { mapActions, mapGetters } from 'vuex'
 import isEqual from 'lodash.isequal'
 import cloneDeep from 'lodash.clonedeep'
-import * as projectService from '@/service/project'
+import projectService from '@/service/project'
 export default {
   data() {
     return {

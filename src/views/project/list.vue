@@ -50,7 +50,7 @@ export default {
       projectItem: ''
     }
   },
-  mounted: function () {
+  created: function () {
     this.searchProject()
   },
   computed: {

@@ -1,4 +1,4 @@
-import * as projectService from '@/service/project'
+import projectService from '@/service/project'
 import entityService from '@/service/entity'
 import * as types from '@/store/mutation-type'
 

@@ -1,26 +1,14 @@
+import DefaultService from './default'
 import * as API from './API'
-import { httpResultProxy } from '@/utils/proxy'
-// import EntityVO from './model/EntityVO'
 import axios from '@/commons/axios'
+import { httpResultProxy } from '@/utils/proxy'
 
-export function save(project) {
-  const id = project._id
-  delete project._id
-  if (id !== '') {
-    return httpResultProxy(axios.patch(API.PROJECT + id, project))
-  } else {
-    return httpResultProxy(axios.post(API.PROJECT, project))
+const ExtendService = {
+  initFormData: function (project) {
+    return httpResultProxy(axios.get(API.PROJECT + project.id))
   }
 }
 
-export function search(project) {
-  return httpResultProxy(axios.get(API.PROJECT, {params: project}))
-}
+Object.assign({}, DefaultService.create({url: API.ENTITY}), ExtendService)
 
-export function remove(project) {
-  return httpResultProxy(axios.delete(API.PROJECT + project.id))
-}
-
-export function initFormData(project) {
-  return httpResultProxy(axios.get(API.PROJECT + project.id))
-}
+export default ExtendService
